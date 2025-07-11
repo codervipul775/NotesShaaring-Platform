@@ -11,10 +11,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
   process.env.FRONTEND_URL || "http://localhost:5173",
-  "http://localhost:5174", 
+  "http://localhost:5174",
   "http://localhost:5175",
-  "https://notes-sharingplatform.vercel.app",
-  "https://notenest-lzm0.onrender.com",
+  "https://notes-shaaring-platform.vercel.app",
 ];
 
 const corsOptions = {
