@@ -16,7 +16,8 @@ import ReviewList from '../components/Reviews/ReviewList';
 import RelatedVideos from '../components/RelatedVideos';
 import RelatedArticles from '../components/RelatedArticles';
 import ReactModal from 'react-modal';
-import { API_BASE_URL } from '../lib/utils';
+
+const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
 
 const NoteDetailsPage = () => {
   const { id: noteId } = useParams();

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_BASE_URL } from '../lib/utils';
 
 export default function ResetPassword() {
   const { token } = useParams(); 
@@ -30,7 +29,7 @@ export default function ResetPassword() {
     setLoading(true);
     try {
       const res = await axios.post(
-        `${API_BASE_URL}/auth/reset-password/${token}`,
+        `https://notesshaaring-platform-1.onrender.com/api/auth/reset-password/${token}`,
         { password }
       );
       setMessage(res.data.message);

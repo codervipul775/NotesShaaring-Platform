@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Play, ExternalLink, Eye, ThumbsUp, Clock, AlertCircle, Loader } from 'lucide-react';
-import { API_BASE_URL } from '../lib/utils';
+
+const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
 
 const RelatedVideos = ({ noteId }) => {
   const [videos, setVideos] = useState([]);

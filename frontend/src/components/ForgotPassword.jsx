@@ -3,13 +3,14 @@ import axios from 'axios';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { API_BASE_URL } from '../lib/utils';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

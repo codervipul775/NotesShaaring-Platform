@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import ReviewList from '../components/Reviews/ReviewList';
-import { API_BASE_URL } from '../lib/utils';
+
+const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
 
 const NotesPage = () => {
   const [notes, setNotes] = useState([]);

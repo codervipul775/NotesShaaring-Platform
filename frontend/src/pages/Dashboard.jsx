@@ -20,7 +20,8 @@ import {
   Heart,
   CheckCircle
 } from 'lucide-react';
-import { API_BASE_URL } from '../lib/utils';
+
+const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);

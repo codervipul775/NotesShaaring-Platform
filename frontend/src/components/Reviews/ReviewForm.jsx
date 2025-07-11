@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Send, Loader2 } from 'lucide-react';
-import { API_BASE_URL } from '../../lib/utils';
+
+const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
 
 const ReviewForm = ({ noteId, existingReview, refreshReviews }) => {
   const [comment, setComment] = useState('');

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Star, MessageCircle, AlertCircle, Edit, Trash2, User, Calendar } from 'lucide-react';
 import ReviewForm from './ReviewForm';
-import { API_BASE_URL } from '../../lib/utils';
+
+const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
 
 const ReviewList = ({ noteId, currentUserId }) => {
   const [reviews, setReviews] = useState([]);

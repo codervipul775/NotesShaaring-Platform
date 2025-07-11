@@ -18,7 +18,8 @@ import {
   Edit,
   Trash2
 } from "lucide-react";
-import { API_BASE_URL } from '../lib/utils';
+
+const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
 
 const subjects = [
   'All Subjects',
