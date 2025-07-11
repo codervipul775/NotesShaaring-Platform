@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
+import { API_BASE_URL } from '../lib/utils';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ export default function ForgotPassword() {
     setError('');
     setLoading(true);
     try {
-      await axios.post('http://localhost:3000/api/auth/forgot-password', { email });
+      await axios.post(`${API_BASE_URL}/auth/forgot-password`, { email });
       setMessage('If an account with that email exists, a password reset link has been sent.');
     } catch (error) {
       console.error('Forgot Password Error:', error);

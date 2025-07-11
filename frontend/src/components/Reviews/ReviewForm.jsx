@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Send, Loader2 } from 'lucide-react';
-
-const API_BASE_URL = 'http://localhost:3000/api';
+import { API_BASE_URL } from '../../lib/utils';
 
 const ReviewForm = ({ noteId, existingReview, refreshReviews }) => {
   const [comment, setComment] = useState('');

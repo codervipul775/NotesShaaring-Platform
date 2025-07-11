@@ -16,8 +16,7 @@ import ReviewList from '../components/Reviews/ReviewList';
 import RelatedVideos from '../components/RelatedVideos';
 import RelatedArticles from '../components/RelatedArticles';
 import ReactModal from 'react-modal';
-
-const API_BASE_URL = 'http://localhost:3000/api';
+import { API_BASE_URL } from '../lib/utils';
 
 const NoteDetailsPage = () => {
   const { id: noteId } = useParams();

@@ -18,8 +18,7 @@ import {
   Edit,
   Trash2
 } from "lucide-react";
-
-const API_BASE_URL = "http://localhost:3000/api";
+import { API_BASE_URL } from '../lib/utils';
 
 const subjects = [
   'All Subjects',

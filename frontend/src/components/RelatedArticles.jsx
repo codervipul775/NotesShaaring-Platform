@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, FileText, Calendar, Globe, AlertCircle, Loader } from 'lucide-react';
-
-const API_BASE_URL = 'http://localhost:3000/api';
+import { API_BASE_URL } from '../lib/utils';
 
 const RelatedArticles = ({ noteId }) => {
   const [articles, setArticles] = useState([]);

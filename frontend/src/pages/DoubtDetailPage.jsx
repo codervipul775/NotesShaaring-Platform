@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { API_BASE_URL } from '../lib/utils';
 
 export default function DoubtDetailPage() {
     const { id } = useParams();
@@ -36,7 +37,7 @@ export default function DoubtDetailPage() {
         setLoading(true);
         setError('');
         try {
-            const res = await axios.get(`/api/doubts/${id}`);
+            const res = await axios.get(`${API_BASE_URL}/doubts/${id}`);
             setDoubt(res.data.doubt);
         } catch {
             setError('Failed to load doubt.');

@@ -20,8 +20,7 @@ import {
   Heart,
   CheckCircle
 } from 'lucide-react';
-
-const API_BASE_URL = 'http://localhost:3000/api';
+import { API_BASE_URL } from '../lib/utils';
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -77,7 +76,7 @@ export default function Dashboard() {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
-      const response = await fetch('http://localhost:3000/api/notes/favorites', {
+      const response = await fetch(`${API_BASE_URL}/notes/favorites`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -469,7 +468,7 @@ function EditProfileModal({ user, onClose, onProfileUpdated }) {
       const formData = new FormData();
       formData.append("bio", bio);
       if (image) formData.append("image", image);
-      const response = await fetch("http://localhost:3000/api/users/update-profile", {
+      const response = await fetch(`${API_BASE_URL}/users/update-profile`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

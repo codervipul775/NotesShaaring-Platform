@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import ReviewList from '../components/Reviews/ReviewList';
-
-const API_BASE_URL = "http://localhost:3000/api";
+import { API_BASE_URL } from '../lib/utils';
 
 const NotesPage = () => {
   const [notes, setNotes] = useState([]);
@@ -23,7 +22,7 @@ const NotesPage = () => {
   const [currentUserId, setCurrentUserId] = useState(null);
 
   console.log('NotesPage mounted');
-  console.log('API_BASE_URL:', "http://localhost:3000/api");
+  console.log('API_BASE_URL:', API_BASE_URL);
 
   useEffect(() => {
     // Always decode user from token on mount

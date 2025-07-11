@@ -13,8 +13,7 @@ import {
   Plus,
   Trash2
 } from 'lucide-react';
-
-const API_BASE_URL = 'http://localhost:3000/api';
+import { API_BASE_URL } from '../lib/utils';
 
 export default function NotesUploadPage() {
   const navigate = useNavigate();

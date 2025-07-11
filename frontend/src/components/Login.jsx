@@ -11,6 +11,7 @@ import {
   AlertCircle,
   CheckCircle
 } from 'lucide-react';
+import { API_BASE_URL } from '../lib/utils';
 
 // Google SVG icon
 const GoogleIcon = () => (
@@ -57,7 +58,7 @@ export default function Login() {
     setSuccess('');
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -248,7 +249,7 @@ export default function Login() {
             <div className="flex flex-col gap-4">
               <button
                 type="button"
-                onClick={() => window.location.href = 'http://localhost:3000/api/auth/google-login'}
+                onClick={() => window.location.href = `${API_BASE_URL}/auth/google-login`}
                 className="w-full flex items-center justify-center gap-3 py-3 border border-border rounded-lg bg-background hover:bg-accent transition-all duration-200 font-medium text-foreground"
               >
                 <GoogleIcon />
