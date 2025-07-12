@@ -24,8 +24,6 @@ export default function Footer() {
             Share Knowledge, Learn Together. NoteNest is a collaborative platform for sharing, discovering, and reviewing study notes and resources. Empower your learning journey with our community!
           </p>
         </div>
-
-        {/* Links */}
         <div className="flex-1 flex flex-col md:flex-row gap-8 justify-between">
           <div>
             <h4 className={`font-semibold mb-4 text-lg ${isDark ? 'text-white' : 'text-gray-800'}`}>Explore</h4>

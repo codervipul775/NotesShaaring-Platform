@@ -26,7 +26,6 @@ export default function Navbar() {
     const token = localStorage.getItem('token');
     if (token) {
       setIsAuthenticated(true);
-      // You can fetch user data here if needed
     }
   }, []);
 
@@ -52,7 +51,6 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 theme-transition navbar-gradient border-b border-primary/20 shadow-lg backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <Link 
             to="/" 
             className="flex items-center space-x-3 group hover-scale"
@@ -70,8 +68,6 @@ export default function Navbar() {
               <span className="text-xs text-white/80 -mt-1">Share Knowledge</span>
             </div>
           </Link>
-
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link 
               to="/browse" 
@@ -107,10 +103,7 @@ export default function Navbar() {
               </>
             )}
           </div>
-
-          {/* Right side buttons */}
           <div className="flex items-center space-x-4">
-            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200 hover-scale group border border-white/20"
@@ -122,8 +115,6 @@ export default function Navbar() {
                 <Moon className="w-5 h-5 text-white group-hover:text-accent-light transition-colors" />
               )}
             </button>
-
-            {/* Auth buttons */}
             {isAuthenticated ? (
               <div className="relative flex items-center space-x-2">
                 <button
@@ -135,7 +126,6 @@ export default function Navbar() {
                   </div>
                   <span className="hidden sm:block text-sm font-medium text-white">Account</span>
                 </button>
-                {/* Dropdown Menu */}
                 {isMenuOpen && (
                   <div className="absolute right-6 mt-2 w-48 max-w-xs bg-card/95 backdrop-blur-md border border-border rounded-xl shadow-lg animate-scale-in">
                     <div className="py-2">
@@ -182,8 +172,6 @@ export default function Navbar() {
                 </Link>
               </div>
             )}
-
-            {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200 border border-white/20"
@@ -196,8 +184,6 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-white/10">
             <div className="flex flex-col space-y-2">

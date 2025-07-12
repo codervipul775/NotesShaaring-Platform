@@ -12,11 +12,7 @@ const PrivateRoute = ({ children }) => {
             const token = localStorage.getItem("token");
             setIsAuthenticated(token && token.length > 10);
         };
-
-        // Listen for auth changes
         window.addEventListener('authChange', checkAuth);
-        
-        // Initial check
         checkAuth();
 
         return () => {

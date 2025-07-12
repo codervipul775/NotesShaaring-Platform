@@ -41,7 +41,6 @@ const forgotPassword = async (req, res) => {
     res.status(500).json({ message: "Something went wrong while sending email" });
   }
 };
-
 module.exports = {
   forgotPassword,
 };

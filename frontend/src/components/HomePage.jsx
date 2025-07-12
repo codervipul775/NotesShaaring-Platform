@@ -153,8 +153,6 @@ function TypingWord() {
 
 export default function HomePage() {
   const isLoggedIn = typeof window !== 'undefined' && localStorage.getItem('token');
-
-  // Dynamic stats state
   const [stats, setStats] = useState({
     userCount: null,
     noteCount: null,
@@ -174,9 +172,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background overflow-hidden">
-      {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
-        {/* Background Elements */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-chart-2/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
@@ -221,10 +217,7 @@ export default function HomePage() {
               )}
             </div>
           </div>
-          
-          {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto animate-slide-up" style={{ animationDelay: '300ms' }}>
-            {/* Active Users */}
             <div className="text-center group hover-scale">
               <div className="flex justify-center mb-3 text-accent">
                 <Users className="w-8 h-8" />
@@ -234,7 +227,6 @@ export default function HomePage() {
               </div>
               <div className="text-sm text-muted-foreground">Active Users</div>
             </div>
-            {/* Notes Shared */}
             <div className="text-center group hover-scale">
               <div className="flex justify-center mb-3 text-accent">
                 <BookOpen className="w-8 h-8" />
@@ -244,7 +236,6 @@ export default function HomePage() {
               </div>
               <div className="text-sm text-muted-foreground">Notes Shared</div>
             </div>
-            {/* Average Rating */}
             <div className="text-center group hover-scale">
               <div className="flex justify-center mb-3 text-accent">
                 <Star className="w-8 h-8" />
@@ -257,8 +248,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Features Section */}
       <section className="py-20 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 animate-slide-up">
@@ -288,8 +277,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* How It Works Section */}
       <section className="py-20 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 animate-slide-up">
@@ -332,8 +319,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
       {!isLoggedIn && (
         <section className="py-20 px-4 bg-gradient-primary relative overflow-hidden">
           <div className="absolute inset-0 bg-black/10"></div>

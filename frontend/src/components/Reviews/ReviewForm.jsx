@@ -130,5 +130,4 @@ const ReviewForm = ({ noteId, existingReview, refreshReviews }) => {
     </form>
   );
 };
-
 export default ReviewForm;

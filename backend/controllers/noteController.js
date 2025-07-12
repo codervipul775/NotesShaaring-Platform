@@ -1,35 +1,32 @@
-const Note = require("../models/Note");
-const summarizeText = require("../utils/summarizer");
-const uploadNote = async (req, res) => {
-try {
-    const { title, subject, description, fileUrl } = req.body;
-    const uploadedBy = req.user?.userId;
-    if (!title || !fileUrl) {
-      return res.status(400).json({ message: "Title and fileUrl are required" });
+const summarizer = require('../utils/summarizer');
+
+const createNote = async (req, res) => {
+  try {
+    const { title, subject, description } = req.body;
+    const fileUrl = req.file.path;
+
+    let summary = '';
+    if (fileUrl.endsWith('.pdf')) {
+      summary = await summarizer(fileUrl);
+      console.log('Generated summary:', summary);
     }
-const fullText = description || title + " " + subject;
-const summary = await summarizeText(fullText);
-const newNote = await Note.create({
+
+    const newNote = new Note({
       title,
       subject,
       description,
       fileUrl,
-      uploadedBy,
-      summary,
+      uploadedBy: req.user.id,
+      summary
     });
-    res.status(201).json({ message: "Note uploaded", note: newNote });
-  }catch (err) {
-    console.error("Upload note error:", err.message);
-    res.status(500).json({ message: "Server error while uploading note" });
-  }
+
+    await newNote.save();
+    res.status(201).json({ success: true, note: newNote });
+
+  } catch (error) {
+  console.error('Upload Error Stack:', error.stack);
+  console.error(' Upload Error Full:', error);
+  res.status(500).json({ error: error.message || 'Internal Server Error' });
+}
+
 };
-const getNoteById = async (req, res) => {
-try {
-    const note = await Note.findById(req.params.noteId);
-    if (!note) return res.status(404).json({ message: "Note not found" });
-    res.json(note);
-  }catch (err) {
-    res.status(500).json({ message: "Error fetching note" });
-  }
-};
-module.exports = { uploadNote, getNoteById };

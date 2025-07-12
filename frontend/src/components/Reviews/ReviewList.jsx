@@ -67,7 +67,6 @@ const ReviewList = ({ noteId, currentUserId }) => {
   // Debug logging
   console.log('ReviewList - currentUserId:', currentUserId);
   console.log('ReviewList - reviews:', reviews);
-  console.log('ReviewList - currentUserReview:', reviews.find(r => r.user?._id === currentUserId));
 
   const currentUserReview = reviews.find(r => r.user?._id === currentUserId);
 
@@ -97,6 +96,7 @@ const ReviewList = ({ noteId, currentUserId }) => {
           <MessageCircle className="w-5 h-5 text-primary" />
           <span>Reviews</span>
         </h3>
+
         <div className="text-center py-8">
           <div className="loading mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading reviews...</p>
@@ -111,7 +111,7 @@ const ReviewList = ({ noteId, currentUserId }) => {
         <MessageCircle className="w-5 h-5 text-primary" />
         <span>Reviews</span>
       </h3>
-
+      
       {error && (
         <div className="flex items-center space-x-2 p-4 bg-destructive/10 border border-destructive/20 rounded-lg mb-6">
           <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
@@ -119,7 +119,6 @@ const ReviewList = ({ noteId, currentUserId }) => {
         </div>
       )}
 
-      {/* Current User Review Section */}
       {currentUserId ? (
         <div className="card-interactive p-6 mb-6">
           {editing && (
@@ -128,7 +127,6 @@ const ReviewList = ({ noteId, currentUserId }) => {
           {!currentUserReview && !editing && (
             <p className="mb-4 font-medium text-foreground">Add a Review</p>
           )}
-          {/* Show form if adding or editing */}
           {(!currentUserReview || editing) ? (
             <ReviewForm
               noteId={noteId}
@@ -182,7 +180,6 @@ const ReviewList = ({ noteId, currentUserId }) => {
         </div>
       )}
 
-      {/* Other Reviews */}
       <div className="space-y-4">
         {reviews.length === 0 ? (
           <div className="card-interactive p-8 text-center">

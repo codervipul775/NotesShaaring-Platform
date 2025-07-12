@@ -11,8 +11,6 @@ import {
   AlertCircle,
   CheckCircle
 } from 'lucide-react';
-
-// Google SVG icon
 const GoogleIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clipPath="url(#clip0_17_40)">
@@ -46,7 +44,6 @@ export default function Login() {
       ...formData,
       [e.target.name]: e.target.value
     });
-    // Clear error when user starts typing
     if (error) setError('');
   };
 
@@ -71,8 +68,6 @@ export default function Login() {
         localStorage.setItem('token', data.token);
         setSuccess('Login successful! Redirecting...');
         window.dispatchEvent(new Event('authChange'));
-        
-        // Redirect after a short delay
         setTimeout(() => {
           navigate('/dashboard');
         }, 1500);
@@ -88,13 +83,11 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
       <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float"></div>
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-chart-2/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
       
       <div className="relative max-w-md w-full space-y-8 animate-slide-up">
-        {/* Header */}
         <div className="text-center">
           <Link to="/" className="inline-flex items-center space-x-3 mb-8 group hover-scale">
             <div className="relative">
@@ -121,10 +114,7 @@ export default function Login() {
             Sign in to your account to continue learning
           </p>
         </div>
-
-        {/* Form */}
         <div className="card-interactive p-8">
-          {/* Show message if redirected from protected route */}
           {location.state?.fromProtected && (
             <div className="flex items-center space-x-3 p-4 bg-accent-light/20 border border-accent/30 rounded-lg animate-scale-in mb-4">
               <AlertCircle className="w-5 h-5 text-accent flex-shrink-0" />
@@ -132,7 +122,6 @@ export default function Login() {
             </div>
           )}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Error/Success Messages */}
             {error && (
               <div className="flex items-center space-x-3 p-4 bg-destructive/10 border border-destructive/20 rounded-lg animate-scale-in">
                 <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
@@ -146,8 +135,6 @@ export default function Login() {
                 <span className="text-sm text-green-600 dark:text-green-400">{success}</span>
               </div>
             )}
-
-            {/* Email Field */}
             <div className="space-y-2">
               <label htmlFor="email" className="block text-sm font-medium text-foreground">
                 Email address
@@ -169,8 +156,6 @@ export default function Login() {
                 />
               </div>
             </div>
-
-            {/* Password Field */}
             <div className="space-y-2">
               <label htmlFor="password" className="block text-sm font-medium text-foreground">
                 Password
@@ -203,8 +188,6 @@ export default function Login() {
                 </button>
               </div>
             </div>
-
-            {/* Forgot Password Link */}
             <div className="flex items-center justify-end">
               <Link
                 to="/forgot-password"
@@ -213,8 +196,6 @@ export default function Login() {
                 Forgot password?
               </Link>
             </div>
-
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -230,8 +211,6 @@ export default function Login() {
               )}
             </button>
           </form>
-
-          {/* Divider */}
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -242,8 +221,6 @@ export default function Login() {
               </div>
             </div>
           </div>
-
-          {/* Social Login Buttons */}
           <div className="mt-8">
             <div className="flex flex-col gap-4">
               <button
@@ -257,8 +234,6 @@ export default function Login() {
             </div>
           </div>
         </div>
-
-        {/* Sign Up Link */}
         <div className="text-center">
           <p className="text-muted-foreground">
             Don't have an account?{' '}

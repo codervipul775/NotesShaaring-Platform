@@ -45,8 +45,6 @@ export default function Dashboard() {
         setError('Please log in to view dashboard');
         return;
       }
-
-      // Fetch dashboard stats
       const statsResponse = await fetch(`${API_BASE_URL}/auth/dashboard-stats`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -55,8 +53,6 @@ export default function Dashboard() {
         const statsData = await statsResponse.json();
         setStats(statsData);
       }
-
-      // Fetch recent notes
       const notesResponse = await fetch(`${API_BASE_URL}/notes`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -129,9 +125,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-8 animate-slide-up flex items-center gap-4">
-          {/* Avatar and Pencil */}
           <div className="relative flex items-center">
             {stats?.user?.imageUrl ? (
               <img
@@ -162,8 +156,6 @@ export default function Dashboard() {
             </p>
           </div>
         </div>
-
-        {/* Edit Profile Modal */}
         {showEditProfile && (
           <div 
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4"
@@ -180,8 +172,6 @@ export default function Dashboard() {
             />
           </div>
         )}
-
-        {/* Bio Section */}
         {stats?.user?.bio && (
           <div className="mb-8 animate-slide-up" style={{ animationDelay: '50ms' }}>
             <div className="card-interactive p-6" style={{ borderTop: '7px solid var(--accent)' }}>

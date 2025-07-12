@@ -10,17 +10,12 @@ const nlp = require('compromise');
  * @returns {string[]} Array of 3-7 keywords, ranked by relevance
  */
 function extractKeywords({ title = '', description = '', summary = '', text = '' }) {
-  // Combine all text sources
   const content = [title, description, summary, text].filter(Boolean).join(' ');
   if (!content.trim()) return [];
-
-  // Use compromise to extract nouns and noun-phrases
   const doc = nlp(content);
-  let terms = doc.nouns().out('frequency'); // [{normal, count, ...}]
-
-  // Remove duplicates, sort by frequency, filter out short/common words
+  let terms = doc.nouns().out('frequency'); 
   const stopwords = new Set([
-    ...nlp.world().words.topk(100).map(w => w.word), // compromise's top 100 common words
+    ...nlp.world().words.topk(100).map(w => w.word), 
     'note', 'notes', 'title', 'description', 'summary', 'text', 'etc', 'thing', 'things', 'stuff', 'page', 'file', 'document', 'user', 'author', 'upload', 'download', 'read', 'write', 'see', 'show', 'get', 'set', 'use', 'data', 'info', 'information', 'content', 'subject', 'topic', 'keywords', 'keyword'
   ]);
 
@@ -35,8 +30,6 @@ function extractKeywords({ title = '', description = '', summary = '', text = ''
     keywords.push(word);
     if (keywords.length >= 7) break;
   }
-
-  // If not enough, try to add some unique terms from the text
   if (keywords.length < 3) {
     const allTerms = doc.terms().out('array');
     for (const word of allTerms) {
@@ -51,8 +44,6 @@ function extractKeywords({ title = '', description = '', summary = '', text = ''
 }
 
 module.exports = { extractKeywords };
-
-// --- Basic Tests ---
 if (require.main === module) {
   const tests = [
     {

@@ -166,18 +166,14 @@ export default function NotesUploadPage() {
   return (
     <div className="min-h-screen bg-background py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8 animate-slide-up">
           <h1 className="text-4xl font-bold text-foreground mb-4">Upload Your Notes</h1>
           <p className="text-xl text-muted-foreground">
             Share your knowledge with the academic community
           </p>
         </div>
-
-        {/* Upload Form */}
         <div className="card-interactive p-8 animate-slide-up" style={{ animationDelay: '200ms' }}>
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* File Upload Area */}
             <div className="space-y-4">
               <label className="block text-sm font-medium text-foreground">
                 Upload File <span className="text-destructive">*</span>
@@ -239,8 +235,6 @@ export default function NotesUploadPage() {
                 )}
               </div>
             </div>
-
-            {/* Form Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
@@ -289,16 +283,12 @@ export default function NotesUploadPage() {
                 className="w-full px-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 resize-none"
               />
             </div>
-
-            {/* Error Message */}
             {error && (
               <div className="flex items-center space-x-2 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
                 <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
                 <p className="text-destructive text-sm">{error}</p>
               </div>
             )}
-
-            {/* Submit Button */}
             <div className="flex justify-end space-x-4">
               <button
                 type="button"
@@ -327,8 +317,6 @@ export default function NotesUploadPage() {
             </div>
           </form>
         </div>
-
-        {/* Upload Guidelines */}
         <div className="mt-8 card-interactive p-6 animate-slide-up" style={{ animationDelay: '400ms' }}>
           <h3 className="text-lg font-bold text-foreground mb-4 flex items-center space-x-2">
             <BookOpen className="w-5 h-5 text-primary" />

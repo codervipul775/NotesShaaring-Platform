@@ -121,7 +121,6 @@ const RelatedArticles = ({ noteId }) => {
             onClick={() => openArticle(article.url)}
           >
             <div className="flex gap-4">
-              {/* Article Image (if available) */}
               {article.image && (
                 <div className="flex-shrink-0">
                   <img
@@ -134,8 +133,6 @@ const RelatedArticles = ({ noteId }) => {
                   />
                 </div>
               )}
-
-              {/* Article Info */}
               <div className="flex-1 min-w-0">
                 <h4 className="font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
                   {article.title}
@@ -159,8 +156,6 @@ const RelatedArticles = ({ noteId }) => {
                   )}
                 </div>
               </div>
-
-              {/* External Link Icon */}
               <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
                 <ExternalLink className="w-4 h-4 text-muted-foreground" />
               </div>

@@ -8,6 +8,8 @@ const path = require("path");
 const fs = require("fs");
 const { estimateDifficulty } = require("../utils/difficultyEstimator");
 const summarizeText = require("../utils/summarizer");
+const youtubeApi = require('../utils/youtubeApi');
+const googleSearchApi = require('../utils/googleSearchApi');
 
 
 router.post("/", protect, upload.single("file"), async (req, res) => {
@@ -38,14 +40,15 @@ router.post("/", protect, upload.single("file"), async (req, res) => {
 
 
     let summary = "";
-    try {
-      const fullText = description && description.length > 0 ? description : `${title} ${subject}`;
-      summary = await summarizeText(fullText);
-      console.log("[AI SUMMARY] Generated summary:", summary);
-    } catch (summaryErr) {
-      console.error("[AI SUMMARY] Error generating summary:", summaryErr);
-      summary = "Summary not available";
-    }
+try {
+  // Removed verbose logging for production
+  summary = await summarizeText(fileUrl);
+} catch (summaryErr) {
+  // Optionally keep error logging, but remove summary content
+  console.error("[AI SUMMARY] Error generating summary:", summaryErr);
+  summary = "Summary not available";
+}
+
 
     const newNote = new Note({
       title,
@@ -66,10 +69,12 @@ router.post("/", protect, upload.single("file"), async (req, res) => {
       message: "Note uploaded successfully",
       note: newNote,
     });
-  } catch (err) {
-    console.error("Upload error:", err);
-    res.status(500).json({ message: "Server error while uploading note" });
-  }
+ } catch (error) {
+  console.error('🔥 FULL ERROR:', error);
+  console.error('🔥 STACK TRACE:', error.stack);
+  res.status(500).json({ error: error.message || 'Internal Server Error' });
+}
+
 });
 
 
@@ -97,10 +102,12 @@ router.get("/", async (req, res) => {
     });
 
     res.status(200).json({ notes: notesWithExtras });
-  } catch (err) {
-    console.error("Fetch notes error:", err);
-    res.status(500).json({ message: "Failed to fetch notes" });
-  }
+  } catch (error) {
+  console.error('🔥 FULL ERROR:', error);
+  console.error('🔥 STACK TRACE:', error.stack);
+  res.status(500).json({ error: error.message || 'Internal Server Error' });
+}
+
 });
 
 router.get("/favorites", protect, async (req, res) => {
@@ -111,10 +118,12 @@ router.get("/favorites", protect, async (req, res) => {
       .populate("uploadedBy", "username email");
 
     res.status(200).json(notes);
-  } catch (err) {
-    console.error("Fetch favorites error:", err);
-    res.status(500).json({ message: "Failed to fetch favorites" });
-  }
+  } catch (error) {
+  console.error('🔥 FULL ERROR:', error);
+  console.error('🔥 STACK TRACE:', error.stack);
+  res.status(500).json({ error: error.message || 'Internal Server Error' });
+}
+
 });
 
 
@@ -126,10 +135,12 @@ router.get("/:id", async (req, res) => {
     );
     if (!note) return res.status(404).json({ message: "Note not found" });
     res.status(200).json({ note });
-  } catch (err) {
-    console.error("Fetch single note error:", err);
-    res.status(500).json({ message: "Server error" });
-  }
+  } catch (error) {
+  console.error('🔥 FULL ERROR:', error);
+  console.error('🔥 STACK TRACE:', error.stack);
+  res.status(500).json({ error: error.message || 'Internal Server Error' });
+}
+
 });
 
 
@@ -300,6 +311,52 @@ router.get("/:id/download-file", protect, async (req, res) => {
   } catch (err) {
     console.error("File download error:", err);
     res.status(500).json({ message: "Server error while downloading file" });
+  }
+});
+
+// Get related YouTube videos for a note
+router.get('/:id/related-videos', async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.id);
+    if (!note) return res.status(404).json({ message: 'Note not found' });
+    const result = await youtubeApi.getRelatedVideos(note);
+    res.json({ data: result });
+  } catch (err) {
+    console.error('Error fetching related videos:', err);
+    res.status(500).json({ message: 'Failed to fetch related videos' });
+  }
+});
+
+// Get related articles for a note
+router.get('/:id/related-articles', async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.id);
+    if (!note) return res.status(404).json({ message: 'Note not found' });
+    const result = await googleSearchApi.getRelatedArticles(note);
+    res.json({ data: result });
+  } catch (err) {
+    console.error('Error fetching related articles:', err);
+    res.status(500).json({ message: 'Failed to fetch related articles' });
+  }
+});
+
+// Get both related videos and articles for a note (suggestions)
+router.get('/:id/suggestions', async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.id);
+    if (!note) return res.status(404).json({ message: 'Note not found' });
+    const [videosResult, articlesResult] = await Promise.all([
+      youtubeApi.getRelatedVideos(note),
+      googleSearchApi.getRelatedArticles(note)
+    ]);
+    res.json({
+      keywords: videosResult.keywords || articlesResult.keywords || [],
+      videos: videosResult.videos || [],
+      articles: articlesResult.articles || []
+    });
+  } catch (err) {
+    console.error('Error fetching suggestions:', err);
+    res.status(500).json({ message: 'Failed to fetch suggestions' });
   }
 });
 
