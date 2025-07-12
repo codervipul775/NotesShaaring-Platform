@@ -160,8 +160,10 @@ export default function HomePage() {
   });
   const [loadingStats, setLoadingStats] = useState(true);
 
+  const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
+
   useEffect(() => {
-    fetch("/api/auth/public-stats")
+    fetch(`${API_BASE_URL}/auth/public-stats`)
       .then(res => res.json())
       .then(data => {
         setStats(data);
