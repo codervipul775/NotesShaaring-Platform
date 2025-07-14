@@ -85,8 +85,8 @@ export default function DoubtsPage() {
       
       if (response.ok) {
         const data = await response.json();
-        console.log('Doubts API response:', data); // Debug log
-        // Always extract the array
+        console.log('Doubts API response:', data); 
+        
         if (data && Array.isArray(data.doubts)) {
           setDoubts(data.doubts);
         } else if (Array.isArray(data)) {

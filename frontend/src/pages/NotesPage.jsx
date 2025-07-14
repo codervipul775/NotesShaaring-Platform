@@ -5,6 +5,9 @@ import ReviewList from '../components/Reviews/ReviewList';
 
 const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
 
+console.log('NotesPage mounted');
+console.log('API_BASE_URL:', API_BASE_URL);
+
 const NotesPage = () => {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,11 +25,8 @@ const NotesPage = () => {
   const [editFile, setEditFile] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
 
-  console.log('NotesPage mounted');
-  console.log('API_BASE_URL:', API_BASE_URL);
-
   useEffect(() => {
-    // Always decode user from token on mount
+    
     const token = localStorage.getItem('token');
     if (token) {
       try {
@@ -66,7 +66,7 @@ const NotesPage = () => {
     }
   }, [editModalOpen, noteToEdit]);
 
-  // Only filter notes after currentUserId is set
+  
   const uploadedNotes = currentUserId
     ? notes.filter(note => {
         if (!note.uploadedBy) return false;
@@ -84,12 +84,6 @@ const NotesPage = () => {
         });
       })
     : [];
-
-  // Debug logs
-  console.log('currentUserId:', currentUserId);
-  console.log('notes:', notes);
-  console.log('uploadedNotes:', uploadedNotes);
-  console.log('downloadedNotes:', downloadedNotes);
 
   const handleDownload = async (note) => {
     const token = localStorage.getItem('token');
@@ -178,7 +172,17 @@ const NotesPage = () => {
       <div key={note._id} className="bg-white p-5 rounded-xl shadow border flex flex-col justify-between">
         <div>
           <h3 className="text-lg font-bold text-gray-800">{note.title}</h3>
-          <p className="text-sm text-gray-600">{note.subject}</p>
+          <p className="text-sm text-gray-600">{note.subject}
+            {note.status && (
+              <span className={`ml-2 px-2 py-1 rounded-full text-xs font-bold border ${
+                note.status === 'approved' ? 'bg-green-100 text-green-700 border-green-300' :
+                note.status === 'pending' ? 'bg-yellow-100 text-yellow-700 border-yellow-300' :
+                'bg-red-100 text-red-700 border-red-300'
+              }`}>
+                {note.status.charAt(0).toUpperCase() + note.status.slice(1)}
+              </span>
+            )}
+          </p>
           {note.description && <p className="text-gray-700 mt-1">{note.description}</p>}
           <p className="text-xs text-gray-500 mt-2">File: {fileExt} | Downloads: {note.downloadCount}</p>
           <p className="text-xs text-gray-500">By: {note.uploadedBy?.username || note.uploadedBy?.email || 'Anonymous'}</p>

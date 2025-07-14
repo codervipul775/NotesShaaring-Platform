@@ -80,8 +80,9 @@ const NotesBrowsingPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [favorites, setFavorites] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  const [showSummaryModal, setShowSummaryModal] = useState(false);
-  const [summaryContent, setSummaryContent] = useState("");
+  // Summary modal feature is currently disabled. Uncomment below to enable in the future.
+  // const [showSummaryModal, setShowSummaryModal] = useState(false);
+  // const [summaryContent, setSummaryContent] = useState("");
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const NOTES_PER_PAGE = 8; 
 
@@ -290,14 +291,14 @@ setNotes(paginatedNotes);
     }
   };
 
-  const handleViewSummary = (note) => {
-    if (note.summary && note.summary.trim() !== "") {
-      setSummaryContent(note.summary);
-    } else {
-      setSummaryContent("Summary not available");
-    }
-    setShowSummaryModal(true);
-  };
+  // const handleViewSummary = (note) => {
+  //   if (note.summary && note.summary.trim() !== "") {
+  //     setSummaryContent(note.summary);
+  //   } else {
+  //     setSummaryContent("Summary not available");
+  //   }
+  //   setShowSummaryModal(true);
+  // };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -450,6 +451,15 @@ setNotes(paginatedNotes);
                     <span className="px-3 py-1 bg-accent text-accent-foreground text-xs font-medium rounded-full">
                       {note.subject}
                     </span>
+                    {note.status && (
+                      <span className={`ml-2 px-2 py-1 rounded-full text-xs font-bold border ${
+                        note.status === 'approved' ? 'bg-green-100 text-green-700 border-green-300' :
+                        note.status === 'pending' ? 'bg-yellow-100 text-yellow-700 border-yellow-300' :
+                        'bg-red-100 text-red-700 border-red-300'
+                      }`}>
+                        {note.status.charAt(0).toUpperCase() + note.status.slice(1)}
+                      </span>
+                    )}
                     <div className="flex gap-2 items-center">
                       {note.difficulty && (
                         <span
@@ -535,13 +545,14 @@ setNotes(paginatedNotes);
                         Download
                       </button>
                     </div>
-                    <button
+                    {/* <button
                       onClick={() => handleViewSummary(note)}
                       className="w-full flex items-center justify-center gap-2 py-2 px-2 border border-accent text-accent rounded-lg font-medium hover:bg-accent/10 transition-all duration-200 hover-scale"
                     >
                       <BookOpen className="w-4 h-4" />
                       View Summary
-                    </button>
+                    </button> */}
+                    {/* SUMMARY FEATURE TEMPORARILY HIDDEN - To re-enable, uncomment above */}
                   </div>
                 </div>
               ))}
@@ -584,23 +595,27 @@ setNotes(paginatedNotes);
           </>
         )}
       </div>
-      {showSummaryModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white dark:bg-background rounded-lg shadow-lg max-w-lg w-full p-6 relative animate-fade-in">
-            <button
-              className="absolute top-2 right-2 text-muted-foreground hover:text-foreground text-xl font-bold"
-              onClick={() => setShowSummaryModal(false)}
-              aria-label="Close"
-            >
-              &times;
-            </button>
-            <h2 className="text-2xl font-bold mb-4 text-foreground">Note Summary</h2>
-            <div className="text-muted-foreground whitespace-pre-line">
-              {summaryContent}
+      {/*
+        Summary modal is currently disabled. Uncomment to enable in the future.
+        {showSummaryModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+            <div className="bg-white dark:bg-background rounded-lg shadow-lg max-w-lg w-full p-6 relative animate-fade-in">
+              <button
+                className="absolute top-2 right-2 text-muted-foreground hover:text-foreground text-xl font-bold"
+                onClick={() => setShowSummaryModal(false)}
+                aria-label="Close"
+              >
+                &times;
+              </button>
+              <h2 className="text-2xl font-bold mb-4 text-foreground">Note Summary</h2>
+              <div className="text-muted-foreground whitespace-pre-line">
+                {summaryContent}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      */}
+      {/* SUMMARY MODAL TEMPORARILY HIDDEN - To re-enable, uncomment above */}
     </div>
   );
 };

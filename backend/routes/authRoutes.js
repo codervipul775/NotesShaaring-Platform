@@ -5,12 +5,31 @@ const crypto = require("crypto");
 const passport = require("passport");
 const authMiddleware = require("../middlewares/authMiddleware");
 const sendEmail = require("../utils/sendEmail");
+const fs = require('fs');
+const path = require('path');
 
 const User = require("../models/User");
 const Note = require("../models/Note");
 const Review = require("../models/Review");
 
 const router = express.Router();
+
+const ADMIN_DATA_PATH = path.join(__dirname, '../config/admin.json');
+
+function getAdminData() {
+  if (fs.existsSync(ADMIN_DATA_PATH)) {
+    return JSON.parse(fs.readFileSync(ADMIN_DATA_PATH, 'utf-8'));
+  }
+  // If not present, create with env password
+  const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'admin123', 10);
+  const data = { passwordHash: hash };
+  fs.writeFileSync(ADMIN_DATA_PATH, JSON.stringify(data));
+  return data;
+}
+
+function setAdminPassword(newHash) {
+  fs.writeFileSync(ADMIN_DATA_PATH, JSON.stringify({ passwordHash: newHash }));
+}
 
 router.post("/signup", async (req, res) => {
   try {
@@ -295,6 +314,31 @@ router.get("/public-stats", async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch stats" });
   }
+});
+
+// Admin login
+router.post('/admin/login', async (req, res) => {
+  const { password } = req.body;
+  if (!password) return res.status(400).json({ message: 'Password required' });
+  const { passwordHash } = getAdminData();
+  const isMatch = await bcrypt.compare(password, passwordHash);
+  if (!isMatch) return res.status(401).json({ message: 'Invalid password' });
+  // For simplicity, return a short-lived token (not JWT, just a session string)
+  const adminToken = crypto.randomBytes(32).toString('hex');
+  // In production, use JWT or session store
+  res.status(200).json({ token: adminToken });
+});
+
+// Admin change password
+router.post('/admin/change-password', async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword) return res.status(400).json({ message: 'Both old and new password required' });
+  const { passwordHash } = getAdminData();
+  const isMatch = await bcrypt.compare(oldPassword, passwordHash);
+  if (!isMatch) return res.status(401).json({ message: 'Old password incorrect' });
+  const newHash = await bcrypt.hash(newPassword, 10);
+  setAdminPassword(newHash);
+  res.status(200).json({ message: 'Password changed successfully' });
 });
 
 module.exports = router;

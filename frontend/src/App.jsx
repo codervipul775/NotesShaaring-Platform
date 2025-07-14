@@ -20,6 +20,7 @@ import NotesHistory from './pages/NotesHistory';
 import Footer from './components/Footer';
 import Privacy from './pages/Privacy';
 import Contact from './pages/Contact';
+import AdminLogin from './components/AdminLogin';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
               <Route path="/reset-password/:token" element={<ResetPassword />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/admin" element={<AdminLogin />} />
             </Routes>
             <Footer />
           </div>

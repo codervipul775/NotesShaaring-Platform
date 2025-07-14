@@ -52,7 +52,12 @@ const noteSchema = new mongoose.Schema({
     type: String,
     enum: ["Basic", "Intermediate", "Advanced"],
     default: "Basic"
-  }
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending',
+  },
 }, {
   timestamps: true
 });

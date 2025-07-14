@@ -1,13 +1,13 @@
 const nlp = require('compromise');
 
 /**
- * Extracts 3-7 ranked keywords from note content using NLP.
+ 
  * @param {Object} params
- * @param {string} params.title - The note's title
- * @param {string} params.description - The note's description
- * @param {string} [params.summary] - Optional summary
- * @param {string} [params.text] - Optional full text
- * @returns {string[]} Array of 3-7 keywords, ranked by relevance
+ * @param {string} params.title 
+ * @param {string} params.description 
+ * @param {string} [params.summary] 
+ * @param {string} [params.text]
+ * @returns {string[]} 
  */
 function extractKeywords({ title = '', description = '', summary = '', text = '' }) {
   const content = [title, description, summary, text].filter(Boolean).join(' ');

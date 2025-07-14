@@ -88,7 +88,7 @@ const NoteDetailsPage = () => {
     }
   }, [note]);
 
-  // Fetch PDF as blob and set blob URL for iframe
+  
   useEffect(() => {
     let url = null;
     async function fetchPdfBlob() {
@@ -124,16 +124,10 @@ const NoteDetailsPage = () => {
         return;
       }
 
-      console.log('Token exists:', !!token);
-      console.log('Token length:', token.length);
-
-      // Track the download
       const downloadResponse = await fetch(`${API_BASE_URL}/notes/${noteId}/download`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}` }
       });
-
-      console.log('Download tracking response status:', downloadResponse.status);
 
       if (!downloadResponse.ok) {
         if (downloadResponse.status === 401) {
@@ -145,20 +139,18 @@ const NoteDetailsPage = () => {
         console.warn('Failed to track download, but continuing with file download');
       }
 
-      // Download the file using the authenticated route
+
       if (note) {
         const downloadUrl = `${API_BASE_URL}/notes/${noteId}/download-file`;
-        console.log('Downloading from:', downloadUrl);
         
-        // Fetch the file with authorization header
+
         const response = await fetch(downloadUrl, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
-        console.log('File download response status:', response.status);
         
         if (response.ok) {
-          // Create blob from response
+
           const blob = await response.blob();
           
           // Create download link
@@ -170,7 +162,7 @@ const NoteDetailsPage = () => {
           link.click();
           link.remove();
           
-          // Clean up the blob URL
+
           window.URL.revokeObjectURL(url);
         } else {
           const errorText = await response.text();
@@ -187,7 +179,7 @@ const NoteDetailsPage = () => {
         }
       }
 
-      // Refresh note to update download count
+
       fetchNote();
     } catch (error) {
       console.error('Error downloading note:', error);
@@ -285,6 +277,15 @@ const NoteDetailsPage = () => {
                 <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
                   {note.subject}
                 </span>
+                {note.status && (
+                  <span className={`ml-2 px-2 py-1 rounded-full text-xs font-bold border ${
+                    note.status === 'approved' ? 'bg-green-100 text-green-700 border-green-300' :
+                    note.status === 'pending' ? 'bg-yellow-100 text-yellow-700 border-yellow-300' :
+                    'bg-red-100 text-red-700 border-red-300'
+                  }`}>
+                    {note.status.charAt(0).toUpperCase() + note.status.slice(1)}
+                  </span>
+                )}
                 <div className="flex items-center space-x-2 text-xs text-muted-foreground">
                   <User className="w-3 h-3" />
                   <span>{note.uploadedBy?.username || 'Anonymous'}</span>

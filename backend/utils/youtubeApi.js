@@ -1,14 +1,13 @@
 const axios = require('axios');
 
-// YouTube Data API configuration
+
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
-// Extract keywords from note content
+
 function extractKeywords(title = '', description = '', subject = '') {
   const text = `${title} ${description} ${subject}`.toLowerCase();
-  
-  // Common educational keywords to prioritize
+
   const educationalKeywords = [
     'tutorial', 'lecture', 'course', 'lesson', 'explanation', 'guide',
     'introduction', 'basics', 'fundamentals', 'advanced', 'concepts',
@@ -18,7 +17,7 @@ function extractKeywords(title = '', description = '', subject = '') {
     'chemistry', 'biology', 'engineering', 'computer science'
   ];
   
-  // Extract words and filter out common stop words
+
   const stopWords = new Set([
     'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
     'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
@@ -33,13 +32,12 @@ function extractKeywords(title = '', description = '', subject = '') {
     word.length > 2 && !stopWords.has(word)
   );
   
-  // Count word frequency
+
   const wordCount = {};
   filteredWords.forEach(word => {
     wordCount[word] = (wordCount[word] || 0) + 1;
   });
-  
-  // Sort by frequency and prioritize educational keywords
+
   const sortedWords = Object.entries(wordCount)
     .sort((a, b) => {
       const aIsEducational = educationalKeywords.includes(a[0]);
@@ -50,13 +48,12 @@ function extractKeywords(title = '', description = '', subject = '') {
       
       return b[1] - a[1];
     })
-    .slice(0, 5) // Take top 5 keywords
+    .slice(0, 5)
     .map(([word]) => word);
   
   return sortedWords;
 }
 
-// Fetch related YouTube videos
 async function fetchRelatedVideos(keywords, maxResults = 5) {
   if (!YOUTUBE_API_KEY) {
     console.warn('YouTube API key not configured');
@@ -71,7 +68,7 @@ async function fetchRelatedVideos(keywords, maxResults = 5) {
         part: 'snippet',
         q: query,
         type: 'video',
-        videoCategoryId: '27', // Education category
+        videoCategoryId: '27',
         maxResults: maxResults,
         order: 'relevance',
         key: YOUTUBE_API_KEY
@@ -80,7 +77,7 @@ async function fetchRelatedVideos(keywords, maxResults = 5) {
     
     const videos = response.data.items || [];
     
-    // Get additional video details (duration, view count, etc.)
+
     if (videos.length > 0) {
       const videoIds = videos.map(video => video.id.videoId);
       
@@ -94,7 +91,7 @@ async function fetchRelatedVideos(keywords, maxResults = 5) {
       
       const videoDetails = detailsResponse.data.items || [];
       
-      // Combine search results with video details
+
       return videos.map((video, index) => {
         const details = videoDetails.find(d => d.id === video.id.videoId) || {};
         
@@ -129,7 +126,7 @@ async function fetchRelatedVideos(keywords, maxResults = 5) {
   }
 }
 
-// Format duration from ISO 8601 format
+
 function formatDuration(duration) {
   if (!duration) return null;
   
@@ -148,7 +145,7 @@ function formatDuration(duration) {
   return result;
 }
 
-// Main function to get related videos for a note
+
 async function getRelatedVideos(note) {
   const keywords = extractKeywords(note.title, note.description, note.subject);
   const videos = await fetchRelatedVideos(keywords);
