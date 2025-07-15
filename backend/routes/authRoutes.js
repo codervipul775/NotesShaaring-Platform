@@ -7,6 +7,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const sendEmail = require("../utils/sendEmail");
 const fs = require('fs');
 const path = require('path');
+const authController = require('../controllers/authController');
 
 const User = require("../models/User");
 const Note = require("../models/Note");
@@ -317,28 +318,9 @@ router.get("/public-stats", async (req, res) => {
 });
 
 // Admin login
-router.post('/admin/login', async (req, res) => {
-  const { password } = req.body;
-  if (!password) return res.status(400).json({ message: 'Password required' });
-  const { passwordHash } = getAdminData();
-  const isMatch = await bcrypt.compare(password, passwordHash);
-  if (!isMatch) return res.status(401).json({ message: 'Invalid password' });
-  // For simplicity, return a short-lived token (not JWT, just a session string)
-  const adminToken = crypto.randomBytes(32).toString('hex');
-  // In production, use JWT or session store
-  res.status(200).json({ token: adminToken });
-});
+router.post('/auth/admin/login', authController.adminLogin);
 
 // Admin change password
-router.post('/admin/change-password', async (req, res) => {
-  const { oldPassword, newPassword } = req.body;
-  if (!oldPassword || !newPassword) return res.status(400).json({ message: 'Both old and new password required' });
-  const { passwordHash } = getAdminData();
-  const isMatch = await bcrypt.compare(oldPassword, passwordHash);
-  if (!isMatch) return res.status(401).json({ message: 'Old password incorrect' });
-  const newHash = await bcrypt.hash(newPassword, 10);
-  setAdminPassword(newHash);
-  res.status(200).json({ message: 'Password changed successfully' });
-});
+router.post('/auth/admin/change-password', authController.changeAdminPassword);
 
 module.exports = router;

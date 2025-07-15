@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const { Resend } = require("resend");
+const Admin = require('../models/Admin');
+const bcrypt = require('bcryptjs');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -41,6 +43,32 @@ const forgotPassword = async (req, res) => {
     res.status(500).json({ message: "Something went wrong while sending email" });
   }
 };
+
+exports.adminLogin = async (req, res) => {
+  const { password } = req.body;
+  const admin = await Admin.findOne({ username: 'admin' });
+  if (!admin) return res.status(401).json({ message: 'Admin not found' });
+
+  const isMatch = await bcrypt.compare(password, admin.password);
+  if (!isMatch) return res.status(401).json({ message: 'Incorrect password' });
+
+  // Generate and return token as before
+  // ... existing token logic ...
+};
+
+exports.changeAdminPassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const admin = await Admin.findOne({ username: 'admin' });
+  if (!admin) return res.status(401).json({ message: 'Admin not found' });
+
+  const isMatch = await bcrypt.compare(oldPassword, admin.password);
+  if (!isMatch) return res.status(401).json({ message: 'Old password incorrect' });
+
+  admin.password = await bcrypt.hash(newPassword, 10);
+  await admin.save();
+  res.json({ message: 'Password changed successfully' });
+};
+
 module.exports = {
   forgotPassword,
 };

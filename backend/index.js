@@ -6,6 +6,17 @@ require("dotenv").config();
 const passport = require("passport");
 const connectDB = require("./config/db");
 const initGooglePassport = require("./config/passport");
+const Admin = require('./models/Admin');
+const bcrypt = require('bcryptjs');
+
+async function seedAdmin() {
+  const existing = await Admin.findOne({ username: 'admin' });
+  if (!existing) {
+    const hashed = await bcrypt.hash('120290', 10); 
+    await Admin.create({ username: 'admin', password: hashed });
+    console.log('Default admin created');
+  }
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -65,6 +76,7 @@ connectDB()
       res.status(500).json({ message: "Internal Server Error" });
     });
 
+    seedAdmin();
     app.listen(PORT, () => {
       console.log("MongoDB connected");
       console.log(`Server is running on http://localhost:${PORT}`);
