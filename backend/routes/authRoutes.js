@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const passport = require("passport");
 const authMiddleware = require("../middlewares/authMiddleware");
-const sendEmail = require("../utils/sendEmail");
 const fs = require('fs');
 const path = require('path');
 const authController = require('../controllers/authController');
@@ -12,25 +11,20 @@ const authController = require('../controllers/authController');
 const User = require("../models/User");
 const Note = require("../models/Note");
 const Review = require("../models/Review");
+const Admin = require('../models/Admin');
 
 const router = express.Router();
 
-const ADMIN_DATA_PATH = path.join(__dirname, '../config/admin.json');
-
-function getAdminData() {
-  if (fs.existsSync(ADMIN_DATA_PATH)) {
-    return JSON.parse(fs.readFileSync(ADMIN_DATA_PATH, 'utf-8'));
+// Ensure admin exists in DB on startup
+async function ensureAdminExists() {
+  const admin = await Admin.findOne({ username: 'admin' });
+  if (!admin) {
+    const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10);
+    await Admin.create({ username: 'admin', passwordHash: hash });
+    console.log('Admin user created with default password.');
   }
-  // If not present, create with env password
-  const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || 'admin123', 10);
-  const data = { passwordHash: hash };
-  fs.writeFileSync(ADMIN_DATA_PATH, JSON.stringify(data));
-  return data;
 }
-
-function setAdminPassword(newHash) {
-  fs.writeFileSync(ADMIN_DATA_PATH, JSON.stringify({ passwordHash: newHash }));
-}
+ensureAdminExists();
 
 router.post("/signup", async (req, res) => {
   try {
@@ -226,74 +220,6 @@ router.get("/dashboard-stats", authMiddleware, async (req, res) => {
   }
 });
 
-router.post("/forgot-password", async (req, res) => {
-  const { email } = req.body;
-  if (!email) return res.status(400).json({ message: "Email is required" });
-
-  try {
-    const user = await User.findOne({ email: email.trim().toLowerCase() });
-    if (!user) {
-      return res
-        .status(200)
-        .json({
-          message: "If that email is registered, a reset link will be sent.",
-        });
-    }
-
-    const token = crypto.randomBytes(32).toString("hex");
-    user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-    await user.save();
-
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
-    const subject = "Password Reset - Notes Sharing Platform";
-    const html = `
-      <p>Hello ${user.username || "user"},</p>
-      <p>You requested a password reset.</p>
-      <p><a href="${resetLink}" style="color:#6366F1; text-decoration:underline;">Click here to reset your password</a></p>
-      <p>This link is valid for 1 hour. If you did not request it, ignore this email.</p>
-    `;
-
-    await sendEmail({ to: user.email, subject, html });
-    res
-      .status(200)
-      .json({
-        message: "If that email is registered, a reset link will be sent.",
-      });
-  } catch (err) {
-    console.error("Forgot password error:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-router.post("/reset-password/:token", async (req, res) => {
-  const { token } = req.params;
-  const { password } = req.body;
-
-  if (!password)
-    return res.status(400).json({ message: "Password is required" });
-
-  try {
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() },
-    });
-
-    if (!user)
-      return res.status(400).json({ message: "Invalid or expired token" });
-
-    user.password = await bcrypt.hash(password, 10);
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
-    await user.save();
-
-    res.status(200).json({ message: "Password has been reset successfully" });
-  } catch (err) {
-    console.error("Reset password error:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
 router.get("/public-stats", async (req, res) => {
   try {
     const [userCount, noteCount, reviews] = await Promise.all([
@@ -318,9 +244,36 @@ router.get("/public-stats", async (req, res) => {
 });
 
 // Admin login
-router.post('/auth/admin/login', authController.adminLogin);
+router.post('/admin/login', async (req, res) => {
+  const { password } = req.body;
+  if (!password) return res.status(400).json({ message: 'Password required' });
+
+  const admin = await Admin.findOne({ username: 'admin' });
+  if (!admin) return res.status(500).json({ message: 'Admin not initialized' });
+
+  const isMatch = await bcrypt.compare(password, admin.passwordHash);
+  if (!isMatch) return res.status(401).json({ message: 'Invalid password' });
+
+  const adminToken = crypto.randomBytes(32).toString('hex');
+  res.status(200).json({ token: adminToken });
+});
 
 // Admin change password
-router.post('/auth/admin/change-password', authController.changeAdminPassword);
+router.post('/admin/change-password', async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword) return res.status(400).json({ message: 'Both old and new password required' });
+
+  const admin = await Admin.findOne({ username: 'admin' });
+  if (!admin) return res.status(500).json({ message: 'Admin not initialized' });
+
+  const isMatch = await bcrypt.compare(oldPassword, admin.passwordHash);
+  if (!isMatch) return res.status(401).json({ message: 'Old password incorrect' });
+
+  const newHash = await bcrypt.hash(newPassword, 10);
+  admin.passwordHash = newHash;
+  await admin.save();
+
+  res.status(200).json({ message: 'Password changed successfully' });
+});
 
 module.exports = router;

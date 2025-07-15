@@ -13,8 +13,6 @@ import AuthSuccess from './components/AuthSuccess';
 import PrivateRoute from './components/PrivateRoute';
 import NoteDetailsPage from './pages/NoteDetailsPage';
 import PublicRoute from './components/PublicRoute';
-import ForgotPassword from './components/ForgotPassword';
-import ResetPassword from './pages/ResetPassword'; 
 import DoubtDetailPage from './pages/DoubtDetailPage';
 import NotesHistory from './pages/NotesHistory';
 import Footer from './components/Footer';
@@ -42,8 +40,6 @@ function App() {
               <Route path="/doubts" element={<PrivateRoute><DoubtsPage /></PrivateRoute>} />
               <Route path="/doubts/:id" element={<PrivateRoute><DoubtDetailPage /></PrivateRoute>} />
               <Route path="/auth/success" element={<AuthSuccess />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password/:token" element={<ResetPassword />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/admin" element={<AdminLogin />} />

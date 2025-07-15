@@ -40,7 +40,6 @@ export default function Footer() {
             <ul className="space-y-2">
               <li><Link to="/login" className={`${isDark ? 'text-white/90 hover:text-primary-foreground' : 'text-gray-700 hover:text-primary'} transition-colors duration-200 hover:translate-x-1 inline-block`}>Login</Link></li>
               <li><Link to="/signup" className={`${isDark ? 'text-white/90 hover:text-primary-foreground' : 'text-gray-700 hover:text-primary'} transition-colors duration-200 hover:translate-x-1 inline-block`}>Sign Up</Link></li>
-              <li><Link to="/forgot-password" className={`${isDark ? 'text-white/90 hover:text-primary-foreground' : 'text-gray-700 hover:text-primary'} transition-colors duration-200 hover:translate-x-1 inline-block`}>Forgot Password</Link></li>
             </ul>
           </div>
         </div>

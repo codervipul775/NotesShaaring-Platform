@@ -14,7 +14,7 @@ import {
   Plus,
   MessageCircle
 } from 'lucide-react';
-import '../styles/Navbar.css';
+
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

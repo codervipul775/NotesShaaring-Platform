@@ -1,10 +1,9 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { Resend } = require("resend");
-const Admin = require('../models/Admin');
-const bcrypt = require('bcryptjs');
-
 const resend = new Resend(process.env.RESEND_API_KEY);
+const bcrypt = require('bcryptjs');
+const Admin = require('../models/Admin');
 
 const generateResetToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "15m" });
@@ -49,11 +48,12 @@ exports.adminLogin = async (req, res) => {
   const admin = await Admin.findOne({ username: 'admin' });
   if (!admin) return res.status(401).json({ message: 'Admin not found' });
 
-  const isMatch = await bcrypt.compare(password, admin.password);
+  const isMatch = await bcrypt.compare(password, admin.passwordHash);
   if (!isMatch) return res.status(401).json({ message: 'Incorrect password' });
 
   // Generate and return token as before
-  // ... existing token logic ...
+  const adminToken = require('crypto').randomBytes(32).toString('hex');
+  res.status(200).json({ token: adminToken });
 };
 
 exports.changeAdminPassword = async (req, res) => {
@@ -61,14 +61,16 @@ exports.changeAdminPassword = async (req, res) => {
   const admin = await Admin.findOne({ username: 'admin' });
   if (!admin) return res.status(401).json({ message: 'Admin not found' });
 
-  const isMatch = await bcrypt.compare(oldPassword, admin.password);
+  const isMatch = await bcrypt.compare(oldPassword, admin.passwordHash);
   if (!isMatch) return res.status(401).json({ message: 'Old password incorrect' });
 
-  admin.password = await bcrypt.hash(newPassword, 10);
+  admin.passwordHash = await bcrypt.hash(newPassword, 10);
   await admin.save();
   res.json({ message: 'Password changed successfully' });
 };
 
 module.exports = {
   forgotPassword,
+  adminLogin: exports.adminLogin,
+  changeAdminPassword: exports.changeAdminPassword,
 };

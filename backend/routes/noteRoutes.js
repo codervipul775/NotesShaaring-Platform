@@ -7,7 +7,6 @@ const Review = require("../models/Review");
 const path = require("path");
 const fs = require("fs");
 const { estimateDifficulty } = require("../utils/difficultyEstimator");
-const { summarizeText } = require("../utils/summarizer");
 const youtubeApi = require('../utils/youtubeApi');
 const googleSearchApi = require('../utils/googleSearchApi');
 
