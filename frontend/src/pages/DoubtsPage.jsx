@@ -49,9 +49,7 @@ export default function DoubtsPage() {
     subject: ''
   });
 
-  const [answerData, setAnswerData] = useState({
-    text: ''
-  });
+  const [answerData, setAnswerData] = useState({});
 
     useEffect(() => {
     fetchDoubts();
@@ -145,7 +143,7 @@ export default function DoubtsPage() {
   };
 
   const handleAnswerSubmit = async (doubtId) => {
-    if (!answerData.text.trim()) {
+    if (!answerData[doubtId] || !answerData[doubtId].trim()) {
       alert('Please enter an answer');
       return;
     }
@@ -163,7 +161,7 @@ export default function DoubtsPage() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(answerData)
+        body: JSON.stringify(answerData[doubtId])
       });
 
       if (response.ok) {
@@ -173,7 +171,7 @@ export default function DoubtsPage() {
             ? { ...doubt, answers: [...(doubt.answers || []), newAnswer.answer] }
             : doubt
         ));
-        setAnswerData({ text: '' });
+        setAnswerData((prev) => ({ ...prev, [doubtId]: '' }));
       } else {
         const errorData = await response.json();
         alert(errorData.message || 'Failed to create answer');
@@ -300,16 +298,12 @@ export default function DoubtsPage() {
       alert('Network error. Please try again.');
     }
   };
-
-  // Ensure doubts is always an array before filtering
   const filteredDoubts = Array.isArray(doubts) ? doubts.filter(doubt => {
     const matchesSearch = (doubt.title?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
                          (doubt.description?.toLowerCase() || '').includes(searchTerm.toLowerCase());
     const matchesSubject = !selectedSubject || doubt.subject === selectedSubject;
     return matchesSearch && matchesSubject;
   }) : [];
-
-  // Sorting logic
   const getSortedDoubts = () => {
     let sorted = [...filteredDoubts];
     if (sortOption === 'newest') {
@@ -373,7 +367,6 @@ export default function DoubtsPage() {
   return (
     <div className="min-h-screen bg-background py-8 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8 animate-slide-up">
           <div>
             <h1 className="text-4xl font-bold text-foreground mb-2">Study Doubts</h1>
@@ -387,8 +380,6 @@ export default function DoubtsPage() {
             <span>Ask Doubt</span>
           </button>
             </div>
-
-        {/* Filters */}
         <div className="card-interactive p-6 mb-8 animate-slide-up" style={{ animationDelay: '200ms' }}>
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
@@ -420,8 +411,6 @@ export default function DoubtsPage() {
             </div>
           </div>
         </div>
-
-        {/* Filter/Sort Dropdown */}
         <div className="flex justify-end mb-4">
           <select
             value={sortOption}
@@ -434,8 +423,6 @@ export default function DoubtsPage() {
             <option value="leastAnswered">Least Answered</option>
           </select>
         </div>
-
-        {/* Doubts List */}
         <div className="space-y-6 animate-slide-up" style={{ animationDelay: '400ms' }}>
           {getSortedDoubts().length === 0 ? (
             <div className="card-interactive p-12 text-center">
@@ -459,7 +446,6 @@ export default function DoubtsPage() {
           ) : (
             getSortedDoubts().map((doubt, index) => (
               <div key={doubt._id} className="card-interactive p-6 animate-slide-up" style={{ animationDelay: `${600 + index * 100}ms` }}>
-                {/* Doubt Header */}
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
@@ -495,8 +481,6 @@ export default function DoubtsPage() {
                     </div>
                   )}
                 </div>
-
-                {/* Answers */}
                 <div className="space-y-4">
                   <h4 className="font-bold text-foreground flex items-center space-x-2">
                     <MessageCircle className="w-5 h-5 text-primary" />
@@ -537,15 +521,13 @@ export default function DoubtsPage() {
                       <p className="text-foreground">{answer.text}</p>
                     </div>
                   ))}
-
-                  {/* Answer Form */}
                   <div className="mt-6">
                     <div className="flex space-x-3">
                       <input
                         type="text"
                         placeholder="Write your answer..."
-                        value={answerData.text}
-                        onChange={(e) => setAnswerData({ text: e.target.value })}
+                        value={answerData[doubt._id] || ''}
+                        onChange={(e) => setAnswerData((prev) => ({ ...prev, [doubt._id]: e.target.value }))}
                         className="flex-1 px-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
                       />
                       <button
@@ -562,8 +544,6 @@ export default function DoubtsPage() {
             ))
           )}
         </div>
-
-        {/* Add Doubt Modal */}
         {showForm && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="card-interactive p-8 w-full max-w-2xl animate-scale-in">
@@ -643,8 +623,6 @@ export default function DoubtsPage() {
             </div>
           </div>
         )}
-
-        {/* Edit Doubt Modal */}
         {editingDoubt && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="card-interactive p-8 w-full max-w-2xl animate-scale-in">
@@ -717,8 +695,6 @@ export default function DoubtsPage() {
             </div>
           </div>
         )}
-
-        {/* Edit Answer Modal */}
         {editingAnswer && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="card-interactive p-8 w-full max-w-2xl animate-scale-in">

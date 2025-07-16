@@ -40,7 +40,7 @@ export default function NotesUploadPage() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 10 * 1024 * 1024) { // 10MB limit
+      if (file.size > 10 * 1024 * 1024) { 
         setError('File size must be less than 10MB');
         return;
       }

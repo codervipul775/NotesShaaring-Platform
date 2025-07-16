@@ -103,8 +103,6 @@ const AdminLogin = () => {
   useEffect(() => {
     if (isAuthenticated) fetchNotes();
   }, [isAuthenticated]);
-
-  // Approve, Reject, Delete handlers with confirmation
   const handleApprove = async (id) => {
     if (!window.confirm('Approve this note?')) return;
     try {
@@ -141,8 +139,6 @@ const AdminLogin = () => {
       console.error('Delete error:', error);
     }
   };
-
-  // Filtering and searching
   const filteredNotes = notes.filter(note =>
     (!filterStatus || note.status === filterStatus) &&
     (note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -150,7 +146,6 @@ const AdminLogin = () => {
       (note.description || '').toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  // Status summary
   const summary = {
     pending: notes.filter(n => n.status === 'pending').length,
     approved: notes.filter(n => n.status === 'approved').length,
@@ -160,7 +155,6 @@ const AdminLogin = () => {
   if (isAuthenticated) {
     return (
       <div className="min-h-screen flex flex-col items-center bg-background">
-        {/* Admin Header */}
         <header className="w-full bg-card shadow p-6 flex flex-col md:flex-row items-center justify-between mb-8">
           <h1 className="text-3xl font-bold text-primary mb-2 md:mb-0">Admin Panel</h1>
           <button
@@ -170,7 +164,6 @@ const AdminLogin = () => {
             {showChangePassword ? 'Cancel' : 'Change Password'}
           </button>
         </header>
-        {/* Change Password Form */}
         {showChangePassword && (
           <form onSubmit={handleChangePassword} className="bg-card p-6 rounded shadow-lg w-full max-w-md mb-8">
             <h2 className="text-xl font-bold mb-4 text-foreground">Change Password</h2>
@@ -200,7 +193,6 @@ const AdminLogin = () => {
             <button type="submit" className="w-full bg-primary text-white py-2 rounded font-semibold">Save Password</button>
           </form>
         )}
-        {/* Status Summary & Filters */}
         <div className="w-full max-w-4xl flex flex-col md:flex-row items-center justify-between mb-4 gap-4">
           <div className="flex gap-4">
             <span className="inline-flex items-center gap-1 text-xs font-semibold bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full"><Clock className="w-4 h-4" /> Pending: {summary.pending}</span>
@@ -231,7 +223,6 @@ const AdminLogin = () => {
             </div>
           </div>
         </div>
-        {/* Notes Table */}
         <div className="bg-card p-4 rounded shadow-lg w-full max-w-4xl overflow-x-auto">
           <h3 className="text-xl font-bold mb-4 text-foreground">All Notes (Validation)</h3>
           {notesLoading ? (

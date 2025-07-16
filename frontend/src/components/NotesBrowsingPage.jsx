@@ -42,7 +42,7 @@ const sortOptions = [
   { value: 'likes', label: 'Most Liked' },
   { value: 'reviewed', label: 'Most Reviewed' },
   { value: 'title', label: 'Title A-Z' },
-  { value: 'difficulty', label: 'Difficulty Level' }, // Added new option
+  { value: 'difficulty', label: 'Difficulty Level' }, 
 ];
 
 const difficultyLevels = [
@@ -51,15 +51,11 @@ const difficultyLevels = [
   { value: 'Intermediate', label: 'Intermediate' },
   { value: 'Advanced', label: 'Advanced' },
 ];
-
-// Add a helper for badge color
 const difficultyBadgeStyles = {
   Basic: 'bg-green-100 text-green-700 border-green-300',
   Intermediate: 'bg-orange-100 text-orange-700 border-orange-300',
   Advanced: 'bg-red-100 text-red-700 border-red-300',
 };
-
-// Map legacy difficulty values to new ones
 function mapDifficulty(level) {
   if (level === 'Easy') return 'Basic';
   if (level === 'Medium') return 'Intermediate';

@@ -14,8 +14,6 @@ const Review = require("../models/Review");
 const Admin = require('../models/Admin');
 
 const router = express.Router();
-
-// Ensure admin exists in DB on startup
 async function ensureAdminExists() {
   const admin = await Admin.findOne({ username: 'admin' });
   if (!admin) {
@@ -243,7 +241,6 @@ router.get("/public-stats", async (req, res) => {
   }
 });
 
-// Admin login
 router.post('/admin/login', async (req, res) => {
   const { password } = req.body;
   if (!password) return res.status(400).json({ message: 'Password required' });
@@ -258,7 +255,6 @@ router.post('/admin/login', async (req, res) => {
   res.status(200).json({ token: adminToken });
 });
 
-// Admin change password
 router.post('/admin/change-password', async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   if (!oldPassword || !newPassword) return res.status(400).json({ message: 'Both old and new password required' });

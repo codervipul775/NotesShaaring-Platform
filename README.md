@@ -65,6 +65,7 @@ This project was collaboratively built by a team of 6 students from **Newton Sch
 ```
 git clone https://github.com/your-username/notes-sharing-platform.git
 cd notes-sharing-platform
+npm install
 ```
 ### 2. Install Dependencies
 ```
@@ -82,17 +83,29 @@ Create a .env file in both the backend/ and frontend/ folders.
 
 backend/.env
 ```
-MONGO_URI=your_mongodb_uri
-PORT=5000
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_CLIENT_EMAIL=your_client_email
-FIREBASE_PRIVATE_KEY=your_private_key
+MONGO_URI=<your_mongo_uri>
+JWT_SECRET=<your_jwt_secret>
+PORT=3000
+GOOGLE_CLIENT_ID=<your_google_client_id>
+GOOGLE_CLIENT_SECRET=<your_google_client_secret>
+FRONTEND_URL=http://localhost:5173
+CLOUDINARY_CLOUD_NAME=<your_cloudinary_cloud_name>
+CLOUDINARY_API_KEY=<your_cloudinary_api_key>
+CLOUDINARY_API_SECRET=<your_cloudinary_api_secret>
+CLOUDINARY_UPLOAD_PRESET=<your_upload_preset>
+CLOUDINARY_UPLOAD_FOLDER=<your_upload_folder>
+RESEND_API_KEY=<your_resend_api_key>
+BACKEND_URL=http://localhost:3000
+YOUTUBE_API_KEY=your_youtube_api_key_here
+GOOGLE_SEARCH_API_KEY=your_google_search_api_key_here
+GOOGLE_CUSTOM_SEARCH_ENGINE_ID=your_custom_search_engine_id_here
+
 ```
 frontend/.env
 ```
-REACT_APP_FIREBASE_API_KEY=your_api_key
-REACT_APP_FIREBASE_AUTH_DOMAIN=your_auth_domain
-REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+VITE_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+VITE_CLOUDINARY_PRESET=your_upload_preset
+VITE_API_BASE_URL=http://localhost:3000
 ```
 ### 4. Run the App Locally
 Start both the backend and frontend in separate terminals:
@@ -100,14 +113,14 @@ Start both the backend and frontend in separate terminals:
 Backend
 ```
 cd backend
-npm run dev
+npm start
 ```
 Frontend
 ```
 cd frontend
-npm start
+npm run dev
 ```
-Now open http://localhost:3000 in your browser.
+Now open http://localhost:5173 in your browser.
 
 ## Folder Structure
 ```
@@ -117,7 +130,7 @@ notes-sharing-platform/
 │   │   ├── components/
 │   │   ├── pages/
 │   │   ├── utils/
-│   │   └── firebase.js
+│   │   
 │   └── public/
 │
 ├── backend/               # Node.js + Express API
@@ -125,7 +138,7 @@ notes-sharing-platform/
 │   ├── models/
 │   ├── routes/
 │   ├── middlewares/
-│   └── server.js
+│   └── index.js
 │
 ├── .gitignore
 ├── README.md

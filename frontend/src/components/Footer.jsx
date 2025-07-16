@@ -7,10 +7,10 @@ export default function Footer() {
   const { isDark } = useTheme();
 
   return (
-    <footer className="footer py-12 px-4 md:px-12 mt-12 w-full border-t border-primary/20 shadow-lg" style={{
+    <footer className="footer  py-12 px-4 md:px-12 mt-12 w-full border-t border-primary/20 shadow-lg" style={{
       background: isDark 
         ? 'linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 50%, var(--chart-2) 100%)'
-        : 'linear-gradient(135deg, #f0f9ff 0%, #71cfc9 50%, #bae6fd 100%)'
+        : 'linear-gradient(135deg, #71cfc9 100%, #bae6fd 100%)'
     }}>
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between md:items-start gap-8">
         <div className="flex-1 flex flex-col items-start gap-3 min-w-[220px]">
@@ -44,9 +44,9 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className={`max-w-7xl mx-auto mt-8 flex flex-col md:flex-row justify-between items-center text-xs gap-2 border-t pt-6 ${isDark ? 'text-white/70 border-white/30' : 'text-gray-600 border-gray-300'}`}>
+      <div className={`max-w-7xl mx-auto mt-8 flex flex-col md:flex-row justify-between items-center text-xs gap-2 border-t pt-6 ${isDark ? 'text-white border-white/30' : 'text-gray-600 border-gray-300'}`}>
         <span>© {new Date().getFullYear()} NoteNest. All rights reserved.</span>
-        <span className={`font-medium ${isDark ? 'text-primary-foreground' : 'text-primary'}`}>Made for learners everywhere.</span>
+        <span className={`font-medium ${isDark ? ' text-white' : 'text-grey'}`}>Made for learners everywhere.</span>
       </div>
     </footer>
   );

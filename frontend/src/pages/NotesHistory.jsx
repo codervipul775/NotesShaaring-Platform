@@ -77,8 +77,6 @@ const NotesHistory = () => {
     fetchCurrentUser();
     fetchNotes();
   }, [fetchCurrentUser, fetchNotes]);
-
-  // Only filter after both allNotes and currentUser are loaded
   useEffect(() => {
     if (!currentUser || !Array.isArray(allNotes)) return;
     const userId = String(currentUser.userId || currentUser._id);
@@ -104,16 +102,11 @@ const NotesHistory = () => {
         alert('Please log in to download notes');
         return;
       }
-
-      // Track download
       await axios.put(`${API_BASE_URL}/notes/${noteId}/download`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-
-      // Find the note
       const note = [...uploadedNotes, ...downloadedNotes].find(n => n._id === noteId);
       if (note && note.fileUrl) {
-        // Create a temporary link to download the file
         const link = document.createElement('a');
         link.href = note.fileUrl;
         link.setAttribute('download', note.title || 'note');
@@ -122,8 +115,6 @@ const NotesHistory = () => {
         link.click();
         link.remove();
       }
-
-      // Refresh notes to update download count
       fetchNotes();
     } catch (error) {
       console.error('Error downloading note:', error);
@@ -144,8 +135,6 @@ const NotesHistory = () => {
       await axios.delete(`${API_BASE_URL}/notes/${noteId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-
-      // Remove from local state
       setUploadedNotes(prev => prev.filter(note => note._id !== noteId));
       setDownloadedNotes(prev => prev.filter(note => note._id !== noteId));
     } catch (error) {
@@ -193,7 +182,7 @@ const NotesHistory = () => {
   return (
     <div className="min-h-screen bg-background py-8 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+
         <div className="mb-8 animate-slide-up">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 flex items-center gap-3">
             <BookOpen className="w-8 h-8 text-primary" />
@@ -205,7 +194,6 @@ const NotesHistory = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Uploaded Notes Column */}
           <div className="animate-slide-up" style={{ animationDelay: '100ms' }}>
             <div className="card-interactive p-6 mb-6">
               <h2 className="text-2xl font-bold text-foreground mb-2 flex items-center gap-2">
@@ -332,8 +320,6 @@ const NotesHistory = () => {
               </div>
             )}
           </div>
-
-          {/* Downloaded Notes Column */}
           <div className="animate-slide-up" style={{ animationDelay: '150ms' }}>
             <div className="card-interactive p-6 mb-6">
               <h2 className="text-2xl font-bold text-foreground mb-2 flex items-center gap-2">

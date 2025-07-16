@@ -107,8 +107,6 @@ export default function DoubtDetailPage() {
             }
         }
     };
-
-    // Doubt edit/delete
     const handleEditDoubt = () => {
         setEditingDoubt(true);
         setEditDoubtTitle(doubt.title);

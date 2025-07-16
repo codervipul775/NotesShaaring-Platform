@@ -175,7 +175,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background overflow-hidden">
       <section className="relative py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5  via-transparent to-accent/5"></div>
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-chart-2/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
         
@@ -250,7 +250,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="py-20 px-4 bg-muted/30">
+      <section className="py-20 px-4 ">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 animate-slide-up">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">

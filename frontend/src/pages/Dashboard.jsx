@@ -187,8 +187,6 @@ export default function Dashboard() {
             </div>
           </div>
         )}
-
-        {/* Favorites Card */}
         <div className="mb-8 animate-slide-up">
           <div className="card-interactive p-6">
             <div className="flex items-center mb-4">
@@ -219,8 +217,6 @@ export default function Dashboard() {
             )}
           </div>
         </div>
-
-        {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="card-interactive p-6 animate-slide-up" style={{ animationDelay: '100ms', borderTop: '7px solid var(--accent)' }}>
             <div className="flex items-center justify-between mb-4">
@@ -286,8 +282,6 @@ export default function Dashboard() {
             <p className="text-xs text-green-500 mt-1">out of 5 stars</p>
           </div>
         </div>
-
-        {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Link 
             to="/upload" 
@@ -340,8 +334,6 @@ export default function Dashboard() {
             </div>
           </Link>
         </div>
-
-        {/* Recent Notes */}
         <div className="animate-slide-up" style={{ animationDelay: '800ms' }}>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-foreground">Recent Notes</h2>
