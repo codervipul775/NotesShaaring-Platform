@@ -36,7 +36,7 @@ export default function DoubtDetailPage() {
         setLoading(true);
         setError('');
         try {
-            const res = await axios.get('https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api/doubts/' + id);
+            const res = await axios.get('import.meta.env.VITE_API_BASE_URL;/doubts/' + id);
             setDoubt(res.data.doubt);
         } catch {
             setError('Failed to load doubt.');

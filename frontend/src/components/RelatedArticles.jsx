@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, FileText, Calendar, Globe, AlertCircle, Loader } from 'lucide-react';
 
-const API_BASE_URL = "https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api";
+const API_BASE_URL = "import.meta.env.VITE_API_BASE_URL;";
 
 const RelatedArticles = ({ noteId }) => {
   const [articles, setArticles] = useState([]);

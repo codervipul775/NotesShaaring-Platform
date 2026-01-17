@@ -19,7 +19,7 @@ import ReactModal from 'react-modal';
 import BookModeViewer from './BookModeViewer';
 
 
-const API_BASE_URL = "https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api";
+const API_BASE_URL = "import.meta.env.VITE_API_BASE_URL;";
 
 const NoteDetailsPage = () => {
   const { id: noteId } = useParams();
