@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CheckCircle, XCircle, Clock, Search } from 'lucide-react';
 
-const API_BASE_URL = 'https://notesshaaring-platform-1.onrender.com/api';
+const API_BASE_URL = 'https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api';
 
 const statusOptions = [
   { value: '', label: 'All' },

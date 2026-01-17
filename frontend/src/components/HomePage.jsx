@@ -160,7 +160,7 @@ export default function HomePage() {
   });
   const [loadingStats, setLoadingStats] = useState(true);
 
-  const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
+  const API_BASE_URL = "https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api";
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/auth/public-stats`)

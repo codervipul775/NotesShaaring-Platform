@@ -14,7 +14,7 @@ import {
   Trash2
 } from 'lucide-react';
 
-const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
+const API_BASE_URL = "https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api";
 
 export default function NotesUploadPage() {
   const navigate = useNavigate();

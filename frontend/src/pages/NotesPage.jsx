@@ -3,7 +3,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import ReviewList from '../components/Reviews/ReviewList';
 
-const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
+const API_BASE_URL = "https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api";
 
 console.log('NotesPage mounted');
 console.log('API_BASE_URL:', API_BASE_URL);
