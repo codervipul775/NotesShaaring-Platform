@@ -5,4 +5,4 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-export const API_BASE_URL = "https://notesshaaring-platform-1.onrender.com/api";
+export const API_BASE_URL = "https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api";
