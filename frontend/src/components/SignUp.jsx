@@ -326,7 +326,7 @@ export default function SignUp() {
             <div className="flex flex-col gap-4">
               <button
                 type="button"
-                onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google-signup`}
+                onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/auth/google-signup`}
                 className="w-full flex items-center justify-center gap-3 py-3 border border-border rounded-lg bg-background hover:bg-accent transition-all duration-200 font-medium text-foreground"
               >
                 <GoogleIcon />
