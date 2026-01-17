@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CheckCircle, XCircle, Clock, Search } from 'lucide-react';
 
-const API_BASE_URL = 'https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api';
+const API_BASE_URL = 'import.meta.env.VITE_API_BASE_URL;';
 
 const statusOptions = [
   { value: '', label: 'All' },

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Star, MessageCircle, AlertCircle, Edit, Trash2, User, Calendar } from 'lucide-react';
 import ReviewForm from './ReviewForm';
 
-const API_BASE_URL = "https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api";
+const API_BASE_URL = "import.meta.env.VITE_API_BASE_URL;";
 
 const ReviewList = ({ noteId, currentUserId }) => {
   const [reviews, setReviews] = useState([]);

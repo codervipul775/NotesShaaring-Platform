@@ -3,10 +3,9 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import ReviewList from '../components/Reviews/ReviewList';
 
-const API_BASE_URL = "https://notenest-gyhsb4anfygqaygu.centralindia-01.azurewebsites.net/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-console.log('NotesPage mounted');
-console.log('API_BASE_URL:', API_BASE_URL);
+
 
 const NotesPage = () => {
   const [notes, setNotes] = useState([]);
