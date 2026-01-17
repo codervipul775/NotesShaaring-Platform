@@ -34,7 +34,7 @@ const NotesHistory = () => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/auth/me`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -59,7 +59,7 @@ const NotesHistory = () => {
       }
 
       // Fetch all notes
-      const response = await axios.get(`${API_BASE_URL}/notes`, {
+      const response = await axios.get(`${API_BASE_URL}/api/notes`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -102,7 +102,7 @@ const NotesHistory = () => {
         alert('Please log in to download notes');
         return;
       }
-      await axios.put(`${API_BASE_URL}/notes/${noteId}/download`, {}, {
+      await axios.put(`${API_BASE_URL}/api/notes/${noteId}/download`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const note = [...uploadedNotes, ...downloadedNotes].find(n => n._id === noteId);
@@ -132,7 +132,7 @@ const NotesHistory = () => {
         return;
       }
 
-      await axios.delete(`${API_BASE_URL}/notes/${noteId}`, {
+      await axios.delete(`${API_BASE_URL}/api/notes/${noteId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUploadedNotes(prev => prev.filter(note => note._id !== noteId));

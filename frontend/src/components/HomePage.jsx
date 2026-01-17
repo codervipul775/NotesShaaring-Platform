@@ -163,7 +163,7 @@ export default function HomePage() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/auth/public-stats`)
+    fetch(`${API_BASE_URL}/api/auth/public-stats`)
       .then(res => res.json())
       .then(data => {
         setStats(data);

@@ -15,7 +15,7 @@ const ReviewList = ({ noteId, currentUserId }) => {
       setLoading(true);
       setError('');
       
-      const response = await fetch(`${API_BASE_URL}/reviews/${noteId}/reviews`);
+      const response = await fetch(`${API_BASE_URL}/api/reviews/${noteId}/reviews`);
       
       if (response.ok) {
         const data = await response.json();
@@ -41,7 +41,7 @@ const ReviewList = ({ noteId, currentUserId }) => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/reviews/${noteId}/reviews`, {
+      const response = await fetch(`${API_BASE_URL}/api/reviews/${noteId}/reviews`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

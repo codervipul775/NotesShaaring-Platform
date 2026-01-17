@@ -108,7 +108,7 @@ export default function NotesUploadPage() {
       uploadData.append('description', formData.description.trim());
       uploadData.append('file', formData.file);
 
-      const response = await fetch(`${API_BASE_URL}/notes`, {
+      const response = await fetch(`${API_BASE_URL}/api/notes`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
