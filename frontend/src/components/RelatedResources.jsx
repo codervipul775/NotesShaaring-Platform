@@ -19,7 +19,7 @@ const RelatedResources = ({ noteId }) => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch(`${API_BASE_URL}/notes/${noteId}/suggestions`);
+      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}/suggestions`);
       if (!response.ok) throw new Error('Failed to fetch related resources');
       const data = await response.json();
       setArticles(data.articles || []);

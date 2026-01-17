@@ -18,7 +18,7 @@ const RelatedArticles = ({ noteId }) => {
       setLoading(true);
       setError('');
       
-      const response = await fetch(`${API_BASE_URL}/notes/${noteId}/related-articles`);
+      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}/related-articles`);
       
       if (response.ok) {
         const data = await response.json();

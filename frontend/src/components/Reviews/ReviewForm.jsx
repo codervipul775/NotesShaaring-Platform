@@ -29,7 +29,7 @@ const ReviewForm = ({ noteId, existingReview, refreshReviews }) => {
     }
 
     try {
-      const url = `${API_BASE_URL}/reviews/${noteId}/reviews`;
+      const url = `${API_BASE_URL}/api/reviews/${noteId}/reviews`;
       const method = 'POST';
       
       const response = await fetch(url, {

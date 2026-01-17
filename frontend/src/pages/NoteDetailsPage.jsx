@@ -45,7 +45,7 @@ const NoteDetailsPage = () => {
       setLoading(true);
       setError('');
       
-      const response = await fetch(`${API_BASE_URL}/notes/${noteId}`);
+      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -66,7 +66,7 @@ const NoteDetailsPage = () => {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const response = await fetch(`${API_BASE_URL}/auth/me`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -129,7 +129,7 @@ const NoteDetailsPage = () => {
         return;
       }
 
-      const downloadResponse = await fetch(`${API_BASE_URL}/notes/${noteId}/download`, {
+      const downloadResponse = await fetch(`${API_BASE_URL}/api/notes/${noteId}/download`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -200,7 +200,7 @@ const NoteDetailsPage = () => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/notes/${noteId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -480,7 +480,7 @@ const NoteDetailsPage = () => {
                 if (editFile) {
                   formData.append('file', editFile);
                 }
-                const response = await fetch(`${API_BASE_URL}/notes/${noteId}`, {
+                const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}`, {
                   method: 'PATCH',
                   headers: {
                     Authorization: `Bearer ${token}`,

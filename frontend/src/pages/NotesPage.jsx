@@ -41,7 +41,7 @@ const NotesPage = () => {
   const fetchNotes = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_BASE_URL}/notes`);
+      const res = await axios.get(`${API_BASE_URL}/api/notes`);
       setNotes(res.data.notes);
     } catch (err) {
       console.error('Failed to fetch notes:', err);
@@ -90,7 +90,7 @@ const NotesPage = () => {
     }
     setDownloading(note._id);
     try {
-      await axios.put(`${API_BASE_URL}/notes/${note._id}/download`, {}, {
+      await axios.put(`${API_BASE_URL}/api/notes/${note._id}/download`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const response = await axios.get(note.fileUrl, { responseType: 'blob' });
@@ -118,7 +118,7 @@ const NotesPage = () => {
     setDeleting(noteId);
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`${API_BASE_URL}/notes/${noteId}`, {
+      await axios.delete(`${API_BASE_URL}/api/notes/${noteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchNotes();
@@ -148,7 +148,7 @@ const NotesPage = () => {
         data = { title: editTitle, subject: editSubject, description: editDescription };
         headers = { Authorization: `Bearer ${token}` };
       }
-      await axios.patch(`${API_BASE_URL}/notes/${noteToEdit._id}`, data, {
+      await axios.patch(`${API_BASE_URL}/api/notes/${noteToEdit._id}`, data, {
         headers: editFile ? { ...headers, "Content-Type": "multipart/form-data" } : headers,
       });
       setEditModalOpen(false);

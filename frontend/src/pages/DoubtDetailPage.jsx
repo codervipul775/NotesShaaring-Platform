@@ -36,7 +36,7 @@ export default function DoubtDetailPage() {
         setLoading(true);
         setError('');
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/doubts/` + id);
+            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/doubts/` + id);
             setDoubt(res.data.doubt);
         } catch {
             setError('Failed to load doubt.');
