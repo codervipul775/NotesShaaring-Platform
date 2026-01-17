@@ -105,7 +105,7 @@ export default function SignUp() {
     console.log('Sending signup data:', signupData);
 
     try {
-      const response = await fetch('import.meta.env.VITE_API_BASE_URL;/auth/signup', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -326,7 +326,7 @@ export default function SignUp() {
             <div className="flex flex-col gap-4">
               <button
                 type="button"
-                onClick={() => window.location.href = 'import.meta.env.VITE_API_BASE_URL;/auth/google-signup'}
+                onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google-signup`}
                 className="w-full flex items-center justify-center gap-3 py-3 border border-border rounded-lg bg-background hover:bg-accent transition-all duration-200 font-medium text-foreground"
               >
                 <GoogleIcon />
