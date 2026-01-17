@@ -21,7 +21,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 
-const API_BASE_URL = "import.meta.env.VITE_API_BASE_URL;";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
