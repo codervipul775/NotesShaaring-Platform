@@ -6,6 +6,8 @@ const passport = require("passport");
 const authMiddleware = require("../middlewares/authMiddleware");
 const fs = require('fs');
 const path = require('path');
+const authController = require('../controllers/authController');
+
 const User = require("../models/User");
 const Note = require("../models/Note");
 const Review = require("../models/Review");
@@ -122,7 +124,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "http://localhost:5173/auth-error?reason=user_not_found",
+    failureRedirect: "https://notes-shaaring-platform.vercel.app/auth-error?reason=user_not_found",
   }),
   async (req, res) => {
     const state = req.query.state;

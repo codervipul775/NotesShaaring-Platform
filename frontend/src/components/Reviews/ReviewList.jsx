@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Star, MessageCircle, AlertCircle, Edit, Trash2, User, Calendar } from 'lucide-react';
 import ReviewForm from './ReviewForm';
-const API_BASE_URL = 'http://localhost:3000/api';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 const ReviewList = ({ noteId, currentUserId }) => {
-const [reviews, setReviews] = useState([]);
-const [loading, setLoading] = useState(true);
-const [error, setError] = useState('');
-const [editing, setEditing] = useState(null);
-const fetchReviews = React.useCallback(async () => {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [editing, setEditing] = useState(null);
+
+  const fetchReviews = React.useCallback(async () => {
     try {
       setLoading(true);
       setError('');
       
-      const response = await fetch(`${API_BASE_URL}/reviews/${noteId}/reviews`);
+      const response = await fetch(`${API_BASE_URL}/api/reviews/${noteId}/reviews`);
       
       if (response.ok) {
         const data = await response.json();
@@ -38,7 +41,7 @@ const fetchReviews = React.useCallback(async () => {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/reviews/${noteId}/reviews`, {
+      const response = await fetch(`${API_BASE_URL}/api/reviews/${noteId}/reviews`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -60,9 +63,10 @@ const fetchReviews = React.useCallback(async () => {
   useEffect(() => {
     fetchReviews();
   }, [fetchReviews]);
+
+  // Debug logging
   console.log('ReviewList - currentUserId:', currentUserId);
   console.log('ReviewList - reviews:', reviews);
-  console.log('ReviewList - currentUserReview:', reviews.find(r => r.user?._id === currentUserId));
 
   const currentUserReview = reviews.find(r => r.user?._id === currentUserId);
 
@@ -87,51 +91,50 @@ const fetchReviews = React.useCallback(async () => {
 
   if (loading) {
     return (
+      <div className="mt-8 animate-slide-up">
+        <h3 className="text-xl font-bold text-foreground mb-4 flex items-center space-x-2">
+          <MessageCircle className="w-5 h-5 text-primary" />
+          <span>Reviews</span>
+        </h3>
 
-    <div className="mt-8 animate-slide-up">
-    <h3 className="text-xl font-bold text-foreground mb-4 flex items-center space-x-2">
-    <MessageCircle className="w-5 h-5 text-primary" />
-    <span>Reviews</span>
-    </h3>
-
-    <div className="text-center py-8">
-    <div className="loading mx-auto mb-4"></div>
-    <p className="text-muted-foreground">Loading reviews...</p>
-    </div>
-
-    </div>
+        <div className="text-center py-8">
+          <div className="loading mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading reviews...</p>
+        </div>
+      </div>
     );
   }
 
   return (
-    
     <div className="mt-8 animate-slide-up">
-    <h3 className="text-xl font-bold text-foreground mb-6 flex items-center space-x-2">
-    <MessageCircle className="w-5 h-5 text-primary" />
-    <span>Reviews</span>
-    </h3>
-    {error && (
-    <div className="flex items-center space-x-2 p-4 bg-destructive/10 border border-destructive/20 rounded-lg mb-6">
-    <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
-    <p className="text-destructive text-sm">{error}</p>
-    </div>
-    )}
-    {currentUserId ? (
-    <div className="card-interactive p-6 mb-6">
-    {editing && (
-    <p className="mb-4 font-medium text-foreground">Update Your Review</p>
-    )}
-    {!currentUserReview && !editing && (
-    <p className="mb-4 font-medium text-foreground">Add a Review</p>
-       )}
-    {(!currentUserReview || editing) ? (
-    <ReviewForm
-    noteId={noteId}
-    existingReview={editing || null}
-    refreshReviews={() => { fetchReviews(); setEditing(null); }}
-    />
-    ) : (
-        <div className="bg-accent rounded-lg p-4">
+      <h3 className="text-xl font-bold text-foreground mb-6 flex items-center space-x-2">
+        <MessageCircle className="w-5 h-5 text-primary" />
+        <span>Reviews</span>
+      </h3>
+      
+      {error && (
+        <div className="flex items-center space-x-2 p-4 bg-destructive/10 border border-destructive/20 rounded-lg mb-6">
+          <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
+          <p className="text-destructive text-sm">{error}</p>
+        </div>
+      )}
+
+      {currentUserId ? (
+        <div className="card-interactive p-6 mb-6">
+          {editing && (
+            <p className="mb-4 font-medium text-foreground">Update Your Review</p>
+          )}
+          {!currentUserReview && !editing && (
+            <p className="mb-4 font-medium text-foreground">Add a Review</p>
+          )}
+          {(!currentUserReview || editing) ? (
+            <ReviewForm
+              noteId={noteId}
+              existingReview={editing || null}
+              refreshReviews={() => { fetchReviews(); setEditing(null); }}
+            />
+          ) : (
+            <div className="bg-accent rounded-lg p-4">
               <div className="flex justify-between items-start mb-3">
                 <div className="flex items-center space-x-2">
                   <User className="w-4 h-4 text-muted-foreground" />
@@ -176,6 +179,7 @@ const fetchReviews = React.useCallback(async () => {
           <p className="text-muted-foreground">Please login to leave a review.</p>
         </div>
       )}
+
       <div className="space-y-4">
         {reviews.length === 0 ? (
           <div className="card-interactive p-8 text-center">

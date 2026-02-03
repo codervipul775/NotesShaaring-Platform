@@ -21,7 +21,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -48,7 +48,7 @@ export default function Dashboard() {
         setError('Please log in to view dashboard');
         return;
       }
-      const statsResponse = await fetch(`${API_BASE_URL}/auth/dashboard-stats`, {
+      const statsResponse = await fetch(`${API_BASE_URL}/api/auth/dashboard-stats`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -56,7 +56,7 @@ export default function Dashboard() {
         const statsData = await statsResponse.json();
         setStats(statsData);
       }
-      const notesResponse = await fetch(`${API_BASE_URL}/notes`, {
+      const notesResponse = await fetch(`${API_BASE_URL}/api/notes`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -76,7 +76,7 @@ export default function Dashboard() {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
-      const response = await fetch('http://localhost:3000/api/notes/favorites', {
+      const response = await fetch(`${API_BASE_URL}/api/notes/favorites`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -456,7 +456,7 @@ function EditProfileModal({ user, onClose, onProfileUpdated }) {
       const formData = new FormData();
       formData.append("bio", bio);
       if (image) formData.append("image", image);
-      const response = await fetch("http://localhost:3000/api/users/update-profile", {
+      const response = await fetch(`${API_BASE_URL}/api/users/update-profile`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

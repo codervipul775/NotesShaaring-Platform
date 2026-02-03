@@ -160,8 +160,10 @@ export default function HomePage() {
   });
   const [loadingStats, setLoadingStats] = useState(true);
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
   useEffect(() => {
-    fetch("/api/auth/public-stats")
+    fetch(`${API_BASE_URL}/api/auth/public-stats`)
       .then(res => res.json())
       .then(data => {
         setStats(data);

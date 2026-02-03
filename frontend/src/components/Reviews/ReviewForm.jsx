@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Send, Loader2 } from 'lucide-react';
-const API_BASE_URL = 'http://localhost:3000/api';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 const ReviewForm = ({ noteId, existingReview, refreshReviews }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
@@ -27,7 +29,7 @@ const ReviewForm = ({ noteId, existingReview, refreshReviews }) => {
     }
 
     try {
-      const url = `${API_BASE_URL}/reviews/${noteId}/reviews`;
+      const url = `${API_BASE_URL}/api/reviews/${noteId}/reviews`;
       const method = 'POST';
       
       const response = await fetch(url, {

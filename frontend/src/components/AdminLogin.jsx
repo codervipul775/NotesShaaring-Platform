@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CheckCircle, XCircle, Clock, Search } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const statusOptions = [
   { value: '', label: 'All' },
@@ -43,7 +43,7 @@ const AdminLogin = () => {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post(`${API_BASE_URL}/auth/admin/login`, { password });
+      const res = await axios.post(`${API_BASE_URL}/api/auth/admin/login`, { password });
       if (res.data.token) {
         localStorage.setItem('adminToken', res.data.token);
         setIsAuthenticated(true);
@@ -69,7 +69,7 @@ const AdminLogin = () => {
       return;
     }
     try {
-      const res = await axios.post(`${API_BASE_URL}/auth/admin/change-password`, {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/admin/change-password`, {
         oldPassword,
         newPassword
       });
@@ -89,7 +89,7 @@ const AdminLogin = () => {
     setNotesError("");
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await axios.get(`${API_BASE_URL}/notes/admin/all`, {
+      const res = await axios.get(`${API_BASE_URL}/api/notes/admin/all`, {
         headers: { 'x-admin-token': token }
       });
       setNotes(res.data.notes || []);
@@ -107,7 +107,7 @@ const AdminLogin = () => {
     if (!window.confirm('Approve this note?')) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.post(`${API_BASE_URL}/notes/admin/${id}/approve`, {}, {
+      await axios.post(`${API_BASE_URL}/api/notes/admin/${id}/approve`, {}, {
         headers: { 'x-admin-token': token }
       });
       fetchNotes();
@@ -119,7 +119,7 @@ const AdminLogin = () => {
     if (!window.confirm('Reject this note?')) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.post(`${API_BASE_URL}/notes/admin/${id}/reject`, {}, {
+      await axios.post(`${API_BASE_URL}/api/notes/admin/${id}/reject`, {}, {
         headers: { 'x-admin-token': token }
       });
       fetchNotes();
@@ -131,7 +131,7 @@ const AdminLogin = () => {
     if (!window.confirm('Delete this note? This cannot be undone.')) return;
     try {
       const token = localStorage.getItem('adminToken');
-      await axios.delete(`${API_BASE_URL}/notes/admin/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/notes/admin/${id}`, {
         headers: { 'x-admin-token': token }
       });
       fetchNotes();

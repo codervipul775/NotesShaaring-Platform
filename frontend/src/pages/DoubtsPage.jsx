@@ -16,7 +16,7 @@ import {
   Filter
 } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const subjects = [
   'DSA',
@@ -61,7 +61,7 @@ export default function DoubtsPage() {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const response = await fetch(`${API_BASE_URL}/auth/me`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -79,7 +79,7 @@ export default function DoubtsPage() {
       setLoading(true);
       setError('');
       
-      const response = await fetch(`${API_BASE_URL}/doubts`);
+      const response = await fetch(`${API_BASE_URL}/api/doubts`);
       
       if (response.ok) {
         const data = await response.json();
@@ -119,7 +119,7 @@ export default function DoubtsPage() {
         alert('Please log in to post doubts');
         return;
       }
-      const response = await fetch(`${API_BASE_URL}/doubts`, {
+      const response = await fetch(`${API_BASE_URL}/api/doubts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ export default function DoubtsPage() {
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/doubts/${doubtId}/answers`, {
+      const response = await fetch(`${API_BASE_URL}/api/doubts/${doubtId}/answers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ export default function DoubtsPage() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/doubts/${doubtId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/doubts/${doubtId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -222,7 +222,7 @@ export default function DoubtsPage() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/doubts/${doubtId}/answers/${answerId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/doubts/${doubtId}/answers/${answerId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -260,7 +260,7 @@ export default function DoubtsPage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/doubts/${doubtId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/doubts/${doubtId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -281,7 +281,7 @@ export default function DoubtsPage() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/doubts/${doubtId}/answers/${answerId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/doubts/${doubtId}/answers/${answerId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });

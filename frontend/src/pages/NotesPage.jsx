@@ -3,7 +3,9 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import ReviewList from '../components/Reviews/ReviewList';
 
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
+
 
 const NotesPage = () => {
   const [notes, setNotes] = useState([]);
@@ -39,7 +41,7 @@ const NotesPage = () => {
   const fetchNotes = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_BASE_URL}/notes`);
+      const res = await axios.get(`${API_BASE_URL}/api/notes`);
       setNotes(res.data.notes);
     } catch (err) {
       console.error('Failed to fetch notes:', err);
@@ -61,6 +63,7 @@ const NotesPage = () => {
       setEditError("");
     }
   }, [editModalOpen, noteToEdit]);
+
   const uploadedNotes = currentUserId
     ? notes.filter(note => {
         if (!note.uploadedBy) return false;
@@ -87,7 +90,7 @@ const NotesPage = () => {
     }
     setDownloading(note._id);
     try {
-      await axios.put(`${API_BASE_URL}/notes/${note._id}/download`, {}, {
+      await axios.put(`${API_BASE_URL}/api/notes/${note._id}/download`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const response = await axios.get(note.fileUrl, { responseType: 'blob' });
@@ -115,7 +118,7 @@ const NotesPage = () => {
     setDeleting(noteId);
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`${API_BASE_URL}/notes/${noteId}`, {
+      await axios.delete(`${API_BASE_URL}/api/notes/${noteId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchNotes();
@@ -145,7 +148,7 @@ const NotesPage = () => {
         data = { title: editTitle, subject: editSubject, description: editDescription };
         headers = { Authorization: `Bearer ${token}` };
       }
-      await axios.patch(`${API_BASE_URL}/notes/${noteToEdit._id}`, data, {
+      await axios.patch(`${API_BASE_URL}/api/notes/${noteToEdit._id}`, data, {
         headers: editFile ? { ...headers, "Content-Type": "multipart/form-data" } : headers,
       });
       setEditModalOpen(false);

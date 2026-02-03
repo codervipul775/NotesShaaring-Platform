@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Play, ExternalLink, Eye, ThumbsUp, Clock, AlertCircle, Loader } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const RelatedVideos = ({ noteId }) => {
   const [videos, setVideos] = useState([]);
@@ -18,7 +18,7 @@ const RelatedVideos = ({ noteId }) => {
       setLoading(true);
       setError('');
       
-      const response = await fetch(`${API_BASE_URL}/notes/${noteId}/related-videos`);
+      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}/related-videos`);
       
       if (response.ok) {
         const data = await response.json();

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, FileText, Calendar, Globe, AlertCircle, Loader } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const RelatedArticles = ({ noteId }) => {
   const [articles, setArticles] = useState([]);
@@ -18,7 +18,7 @@ const RelatedArticles = ({ noteId }) => {
       setLoading(true);
       setError('');
       
-      const response = await fetch(`${API_BASE_URL}/notes/${noteId}/related-articles`);
+      const response = await fetch(`${API_BASE_URL}/api/notes/${noteId}/related-articles`);
       
       if (response.ok) {
         const data = await response.json();

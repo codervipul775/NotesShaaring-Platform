@@ -6,15 +6,25 @@ require("dotenv").config();
 const passport = require("passport");
 const connectDB = require("./config/db");
 const initGooglePassport = require("./config/passport");
+const Admin = require('./models/Admin');
+const bcrypt = require('bcryptjs');
+
+async function seedAdmin() {
+  const existing = await Admin.findOne({ username: 'admin' });
+  if (!existing) {
+    const hashed = await bcrypt.hash('120290', 10); 
+    await Admin.create({ username: 'admin', password: hashed });
+    console.log('Default admin created');
+  }
+}
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
   process.env.FRONTEND_URL || "http://localhost:5173",
-  "http://localhost:5174", 
+  "http://localhost:5174",
   "http://localhost:5175",
-  "https://notes-sharingplatform.vercel.app",
-  "https://notenest-lzm0.onrender.com",
+  "https://notes-shaaring-platform.vercel.app",
 ];
 
 const corsOptions = {
@@ -66,6 +76,7 @@ connectDB()
       res.status(500).json({ message: "Internal Server Error" });
     });
 
+    seedAdmin();
     app.listen(PORT, () => {
       console.log("MongoDB connected");
       console.log(`Server is running on http://localhost:${PORT}`);

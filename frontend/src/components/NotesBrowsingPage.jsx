@@ -19,7 +19,7 @@ import {
   Trash2
 } from "lucide-react";
 
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 const subjects = [
   'All Subjects',
@@ -88,7 +88,7 @@ const NotesBrowsingPage = () => {
       setLoading(true);
       setError('');
 
-      const response = await axios.get(`${API_BASE_URL}/notes`);
+      const response = await axios.get(`${API_BASE_URL}/api/notes`);
       const allNotesFetched = response.data.notes || [];
       setAllNotes(allNotesFetched);
       
@@ -149,7 +149,7 @@ setNotes(paginatedNotes);
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const response = await fetch(`${API_BASE_URL}/auth/me`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -167,7 +167,7 @@ setNotes(paginatedNotes);
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const response = await axios.get(`${API_BASE_URL}/notes/favorites`, {
+      const response = await axios.get(`${API_BASE_URL}/api/notes/favorites`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setFavorites(response.data.map(note => note._id));
@@ -192,7 +192,7 @@ setNotes(paginatedNotes);
       }
 
      
-      await axios.put(`${API_BASE_URL}/notes/${noteId}/download`, {}, {
+      await axios.put(`${API_BASE_URL}/api/notes/${noteId}/download`, {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 
@@ -244,7 +244,7 @@ setNotes(paginatedNotes);
         return;
       }
 
-      await axios.delete(`${API_BASE_URL}/notes/${noteId}`, {
+      await axios.delete(`${API_BASE_URL}/api/notes/${noteId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setNotes(prev => prev.filter(note => note._id !== noteId));
@@ -264,11 +264,11 @@ setNotes(paginatedNotes);
     try {
       let response;
       if (isFavorited) {
-        response = await axios.delete(`${API_BASE_URL}/notes/${noteId}/favorite`, {
+        response = await axios.delete(`${API_BASE_URL}/api/notes/${noteId}/favorite`, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        response = await axios.post(`${API_BASE_URL}/notes/${noteId}/favorite`, {}, {
+        response = await axios.post(`${API_BASE_URL}/api/notes/${noteId}/favorite`, {}, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }

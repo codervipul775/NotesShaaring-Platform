@@ -14,7 +14,7 @@ import {
   Trash2
 } from 'lucide-react';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export default function NotesUploadPage() {
   const navigate = useNavigate();
@@ -108,7 +108,7 @@ export default function NotesUploadPage() {
       uploadData.append('description', formData.description.trim());
       uploadData.append('file', formData.file);
 
-      const response = await fetch(`${API_BASE_URL}/notes`, {
+      const response = await fetch(`${API_BASE_URL}/api/notes`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
